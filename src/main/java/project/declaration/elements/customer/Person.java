@@ -1,6 +1,7 @@
-package project.declaration.elements.subelements;
+package project.declaration.elements.customer;
 
 import project.core.DateFormatter;
+
 import java.time.LocalDate;
 
 public final class Person {

@@ -1,24 +1,24 @@
-package project.declaration.elements;
+package project.declaration.dto;
 
-import project.declaration.elements.subelements.IdentityDocument;
-import project.declaration.elements.subelements.Person;
-import project.declaration.elements.subelements.PersonIdentification;
-import project.declaration.elements.subelements.ResidentialDocument;
+import project.declaration.elements.customer.IdentityDocument;
+import project.declaration.elements.customer.Person;
+import project.declaration.elements.customer.PersonIdentification;
+import project.declaration.elements.customer.ResidentialDocument;
 
-public final class Customer {
+public final class CustomerDto {
     private final Person person;
     private final PersonIdentification personIdentification;
     private final IdentityDocument identityDocument;
     private ResidentialDocument residentialDocument;
 
-    public Customer(final Person person, final PersonIdentification personIdentification,
+    public CustomerDto(final Person person, final PersonIdentification personIdentification,
                     final IdentityDocument identityDocument) {
         this.person = person;
         this.personIdentification = personIdentification;
         this.identityDocument = identityDocument;
     }
 
-    public Customer(final Person person, final PersonIdentification personIdentification,
+    public CustomerDto(final Person person, final PersonIdentification personIdentification,
                     final IdentityDocument identityDocument, final ResidentialDocument residentialDocument) {
         this.person = person;
         this.personIdentification = personIdentification;

@@ -1,4 +1,4 @@
-package project.declaration.elements.subelements;
+package project.declaration.elements.customer;
 
 import project.enums.EUCountries;
 import project.enums.IdentityDocumentTypes;
