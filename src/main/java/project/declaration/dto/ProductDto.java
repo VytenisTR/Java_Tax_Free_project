@@ -1,16 +1,23 @@
 package project.declaration.dto;
 
+import project.common.validation.product.*;
 import project.core.DeclarationConstants;
 import project.enums.MeasurementUnits;
 
 public final class ProductDto {
     private final long productSequenceNo;
+    @ValidProductDescription
     private final String productDescription;
+    @ValidProductQuantity
     private final long productQuantity;
     private MeasurementUnits measurementUnits;
+    @ValidMeasurementUnitsOther
     private String measurementUnitsOther;
+    @ValidTaxableAmount
     private final double taxableAmount;
+    @ValidVatAmount
     private final double vatAmount;
+    @ValidTotalAmount
     private final double totalAmount;
 
     public ProductDto(final String productDescription, final long productQuantity,

@@ -1,18 +1,22 @@
 package project.declaration.elements.sales_document;
 
+import project.common.validation.sales_document.ValidInvoiceNo;
+import project.common.validation.sales_document.ValidSalesDate;
 import project.core.DateFormatter;
 import java.time.LocalDate;
 
 public final class Invoice {
-    private final long invoiceNo;
+    @ValidInvoiceNo
+    private final String invoiceNo;
+    @ValidSalesDate
     private final LocalDate salesDate;
 
-    public Invoice(long invoiceNo, int year, int month, int day) {
+    public Invoice(final String invoiceNo, final int year, final int month, final int day) {
         this.invoiceNo = invoiceNo;
         this.salesDate = LocalDate.of(year, month, day);
     }
 
-    public long getInvoiceNo() {
+    public String getInvoiceNo() {
         return invoiceNo;
     }
 
