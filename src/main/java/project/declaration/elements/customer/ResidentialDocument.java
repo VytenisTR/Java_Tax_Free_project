@@ -1,5 +1,6 @@
 package project.declaration.elements.customer;
 
+import project.common.validation.customer.ValidResidentialDocumentNo;
 import project.enums.EUCountries;
 import project.enums.NonEUCountries;
 import project.enums.ResidentialDocumentTypes;
@@ -7,12 +8,13 @@ import project.enums.EUTerritoriesThirdCountries;
 
 public final class ResidentialDocument {
     private final ResidentialDocumentTypes residentialDocumentType;
-    private final long documentNo;
+    @ValidResidentialDocumentNo
+    private final String documentNo;
     private EUCountries issuedByEUCountry;
     private NonEUCountries issuedByNonEUCountry;
     private EUTerritoriesThirdCountries residentialEUTerritory;
 
-    public ResidentialDocument(final ResidentialDocumentTypes residentialDocumentType, final long documentNo,
+    public ResidentialDocument(final ResidentialDocumentTypes residentialDocumentType, final String documentNo,
                                final EUCountries issuedByEUCountry,
                                final EUTerritoriesThirdCountries residentialEUTerritory) {
         this.residentialDocumentType = residentialDocumentType;
@@ -21,7 +23,7 @@ public final class ResidentialDocument {
         this.residentialEUTerritory = residentialEUTerritory;
     }
 
-    public ResidentialDocument(final ResidentialDocumentTypes residentialDocumentType, final long documentNo,
+    public ResidentialDocument(final ResidentialDocumentTypes residentialDocumentType, final String documentNo,
                                final NonEUCountries issuedByNonEUCountry) {
         this.residentialDocumentType = residentialDocumentType;
         this.documentNo = documentNo;
@@ -36,7 +38,7 @@ public final class ResidentialDocument {
         return residentialDocumentType.getLongLT();
     }
 
-    public long getDocumentNo() {
+    public String getDocumentNo() {
         return documentNo;
     }
 

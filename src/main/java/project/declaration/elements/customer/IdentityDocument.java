@@ -1,26 +1,28 @@
 package project.declaration.elements.customer;
 
+import project.common.validation.customer.ValidIdentityDocumentNo;
 import project.enums.EUCountries;
 import project.enums.IdentityDocumentTypes;
 import project.enums.NonEUCountries;
 
 public final class IdentityDocument {
     private final IdentityDocumentTypes identityDocumentType;
-    private final long documentNo;
+    @ValidIdentityDocumentNo
+    private final String identityDocumentNo;
     private EUCountries issuedByEUCountry;
     private NonEUCountries issuedByNonEUCountry;
 
-    public IdentityDocument(final IdentityDocumentTypes identityDocumentType, final long documentNo,
+    public IdentityDocument(final IdentityDocumentTypes identityDocumentType, final String identityDocumentNo,
                             final EUCountries issuedByEUCountry) {
         this.identityDocumentType = identityDocumentType;
-        this.documentNo = documentNo;
+        this.identityDocumentNo = identityDocumentNo;
         this.issuedByEUCountry = issuedByEUCountry;
     }
 
-    public IdentityDocument(final IdentityDocumentTypes identityDocumentType, final long documentNo,
+    public IdentityDocument(final IdentityDocumentTypes identityDocumentType, final String identityDocumentNo,
                             final NonEUCountries issuedByNonEUCountry) {
         this.identityDocumentType = identityDocumentType;
-        this.documentNo = documentNo;
+        this.identityDocumentNo = identityDocumentNo;
         this.issuedByNonEUCountry = issuedByNonEUCountry;
     }
 
@@ -32,8 +34,8 @@ public final class IdentityDocument {
         return identityDocumentType.getLongLT();
     }
 
-    public long getDocumentNo() {
-        return documentNo;
+    public String getIdentityDocumentNo() {
+        return identityDocumentNo;
     }
 
     public String getIssuedByEUCountryEN() {

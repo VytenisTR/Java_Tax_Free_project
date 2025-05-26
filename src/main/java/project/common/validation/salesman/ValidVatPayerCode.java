@@ -1,18 +1,18 @@
-package project.common.validation.sales_document;
+package project.common.validation.salesman;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 import jakarta.validation.constraints.NotBlank;
-import project.common.validation.implementation.sales_document.SalesDateValidator;
+import project.common.validation.implementation.salesman.VatPayerCodeValidator;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = SalesDateValidator.class)
+@Constraint(validatedBy = VatPayerCodeValidator.class)
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @NotBlank
-public @interface ValidSalesDate {
-    String message() default "Sales date cannot be in the future!";
+public @interface ValidVatPayerCode {
+    String message() default "VAT payer code should be 9 or 12 characters in length!";
 
     Class<?>[] groups() default { };
 

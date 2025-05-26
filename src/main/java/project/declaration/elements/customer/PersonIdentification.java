@@ -1,24 +1,34 @@
 package project.declaration.elements.customer;
 
+import project.common.validation.customer.ValidPersonalIdNo;
 import project.enums.EUCountries;
 import project.enums.NonEUCountries;
 
 public final class PersonIdentification {
-    private final long personalIdNumber;
+    @ValidPersonalIdNo
+    private String personalIdNumber;
     private EUCountries issuedByEUCountry;
     private NonEUCountries issuedByNonEUCountry;
 
-    public PersonIdentification(final long personalIdNumber, final EUCountries issuedByEUCountry) {
+    public PersonIdentification(final String personalIdNumber, final EUCountries issuedByEUCountry) {
         this.personalIdNumber = personalIdNumber;
         this.issuedByEUCountry = issuedByEUCountry;
     }
 
-    public PersonIdentification(final long personalIdNumber, final NonEUCountries issuedByNonEUCountry) {
+    public PersonIdentification(final String personalIdNumber, final NonEUCountries issuedByNonEUCountry) {
         this.personalIdNumber = personalIdNumber;
         this.issuedByNonEUCountry = issuedByNonEUCountry;
     }
 
-    public long getPersonalIdNumber() {
+    public PersonIdentification(final EUCountries issuedByEUCountry) {
+        this.issuedByEUCountry = issuedByEUCountry;
+    }
+
+    public PersonIdentification(final NonEUCountries issuedByNonEUCountry) {
+        this.issuedByNonEUCountry = issuedByNonEUCountry;
+    }
+
+    public String getPersonalIdNumber() {
         return personalIdNumber;
     }
 
