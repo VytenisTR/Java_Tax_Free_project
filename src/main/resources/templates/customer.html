@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer</title>
+</head>
+<body>
+    <h2>Customer information</h2>
+    <form id="person-form">
+        <div class="person-details-fields">
+            <label>
+                <input type="text" name="firstName" required>First name:
+            </label>
+
+            <label>
+                <input type="text" name="lastName" required>Last name:
+            </label>
+
+            <label>
+                <input type="date" id="birthDate" name="customerBirthDate" min="1920-01-01" max="" required>Birthdate:
+            </label>
+        </div>
+    </form>
+    <h2>Customer identification information</h2>
+    <form id="person-identification-form">
+        <div class="person-identification-fields">
+            <label>
+                <input type="text" name="personalIdNumber">Personal identification number (ID):
+            </label>
+
+            <label>
+                <input style="display: none" type="text"
+                       name="personalIdNumberIssuedBy">Personal identification number issuer (country):
+            </label>
+
+            <label>
+                <input type="text" name="identityDocumentType" required>Identification document type:
+            </label>
+
+            <label>
+                <input type="text" name="identityDocumentNo" required>Identification document number:
+            </label>
+
+            <label>
+                <input type="text" name="identityDocumentIssuedBy">Identification document issuer (country):
+            </label>
+
+            <label>
+                <input type="text" name="identityDocumentIssuedBy">Identification document issuer (country):
+            </label>
+
+            <label>
+                <input style="display: none" type="text" name="residentialDocumentType">Other document type:
+            </label>
+
+            <label>
+                <input style="display: none" type="text" name="residentialDocumentNo">Other document number:
+            </label>
+
+            <label>
+                <input style="display: none" type="text" name="otherDocumentIssuedBy">Other document issuer (country):
+            </label>
+
+            <label>
+                <input style="display: none" type="text" name="residentialCountry">Country of permanent residence:
+            </label>
+
+            <label>
+                <input style="display: none" type="text"
+                       name="residentialEUTerritory">EU territory of permanent residence:
+            </label>
+        </div>
+        <div class="navigation-buttons">
+            <button type="button" id="backBtn">Back</button>
+            <button type="button" id="nextBtn">Next</button>
+        </div>
+    </form>
+</body>
+</html>

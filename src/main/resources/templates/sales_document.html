@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sales document</title>
+</head>
+<body>
+    <h2>Sales document information</h2>
+    <form id="sales-document-form">
+        <h3>Select sales document type:</h3>
+        <label>
+            <input type="radio" name="salesDocumentType"
+                   value="cashRegisterReceipt" onclick="displayFields('cashRegisterReceipt')" required>Cash register receipt
+        </label>
+        <label>
+            <input type="radio" name="salesDocumentType" value="invoice" onclick="displayFields('invoice')">Invoice
+        </label>
+        <div class="cash-register-receipt-fields">
+            <label>
+                <input type="text" name="cashRegisterNo">Cash register number:
+            </label>
+
+            <label>
+                <input type="text" name="cashReceiptNo">Receipt number:
+            </label>
+        </div>
+        <div class="invoice-fields">
+            <label>
+                <input type="date" id="salesDate" name="invoiceSalesDate">Sales date:
+            </label>
+        </div>
+        <div class="goods-fields">
+            <label>
+                <input type="number" name="productSequenceNo" required readonly>Product position:
+            </label>
+
+            <label>
+                <input type="text" name="productDescription" required>Product description:
+            </label>
+
+            <label>
+                <input type="number" name="productQuantity" required>Quantity:
+            </label>
+
+            <label>
+                <input list="" name="measurementUnits" required>Unit of measurement:
+            </label>
+
+            <label>
+                <input type="text" name="measurementUnitsOther" required>Unit of measurement (other):
+            </label>
+
+            <label>
+                <input type="text" name="measurementUnitsOther" required>Unit of measurement (other):
+            </label>
+
+            <label>
+                <input type="number" name="taxableAmount" required readonly>Taxable amount (EUR):
+            </label>
+
+            <label>
+                <input type="number" name="vatAmount" required readonly>VAT amount (EUR):
+            </label>
+
+            <label>
+                <input type="number" name="totalAmount" required>Total amount (EUR):
+            </label>
+        </div>
+        <div class="goods-fields-additional">
+            <!--Fields for additional product input will be added here.-->
+        </div>
+        <div class="navigation-buttons">
+            <button type="button" id="backBtn">Back</button>
+            <button type="button" id="nextBtn">Next</button>
+        </div>
+    </form>
+</body>
+</html>

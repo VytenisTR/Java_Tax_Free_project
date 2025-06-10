@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Salesman</title>
+</head>
+<body>
+    <h2>Salesman information</h2>
+    <form id="salesman-form">
+        <div class="salesman-fields">
+            <label>
+                <input type="number" name="vatPayerCode" required>VAT payer code:
+            </label>
+
+            <label>
+                <input type="text" name="vatPayerCodeIssuedBy"
+                       value="LT" required readonly>VAT payer's code issuer (country):
+            </label>
+
+            <label>
+                <input type="text" name="salesmanName" required>Salesman name:
+            </label>
+        </div>
+        <div class="navigation-buttons">
+            <button type="button" id="backBtn">Back</button>
+            <button type="button" id="nextBtn">Next</button>
+        </div>
+    </form>
+</body>
+</html>
