@@ -5,71 +5,86 @@
     <title>Customer</title>
 </head>
 <body>
-    <h2>Customer information</h2>
-    <form id="person-form">
+    <form id="person-details-form">
+        <h2>Customer information</h2>
         <div class="person-details-fields">
-            <label>
-                <input type="text" name="firstName" required>First name:
-            </label>
-
-            <label>
-                <input type="text" name="lastName" required>Last name:
-            </label>
-
-            <label>
-                <input type="date" id="birthDate" name="customerBirthDate" min="1920-01-01" max="" required>Birthdate:
-            </label>
+            <div class="person-details-field">
+                <label for="firstName">First name</label>
+                <input type="text" id="firstName" required>
+            </div>
+            <br><br>
+            <div class="person-details-field">
+                <label for="lastName">Last name</label>
+                <input type="text" id="lastName" required>
+            </div>
+            <br><br>
+            <div class="person-details-field">
+                <label for="customerBirthDate">Birthdate</label>
+                <input type="date" id="customerBirthDate" required>
+            </div>
         </div>
     </form>
-    <h2>Customer identification information</h2>
+    <br><br>
     <form id="person-identification-form">
+        <h2>Customer identification information</h2>
         <div class="person-identification-fields">
-            <label>
-                <input type="text" name="personalIdNumber">Personal identification number (ID):
-            </label>
-
-            <label>
-                <input style="display: none" type="text"
-                       name="personalIdNumberIssuedBy">Personal identification number issuer (country):
-            </label>
-
-            <label>
-                <input type="text" name="identityDocumentType" required>Identification document type:
-            </label>
-
-            <label>
-                <input type="text" name="identityDocumentNo" required>Identification document number:
-            </label>
-
-            <label>
-                <input type="text" name="identityDocumentIssuedBy">Identification document issuer (country):
-            </label>
-
-            <label>
-                <input type="text" name="identityDocumentIssuedBy">Identification document issuer (country):
-            </label>
-
-            <label>
-                <input style="display: none" type="text" name="residentialDocumentType">Other document type:
-            </label>
-
-            <label>
-                <input style="display: none" type="text" name="residentialDocumentNo">Other document number:
-            </label>
-
-            <label>
-                <input style="display: none" type="text" name="otherDocumentIssuedBy">Other document issuer (country):
-            </label>
-
-            <label>
-                <input style="display: none" type="text" name="residentialCountry">Country of permanent residence:
-            </label>
-
-            <label>
-                <input style="display: none" type="text"
-                       name="residentialEUTerritory">EU territory of permanent residence:
-            </label>
+            <div class="person-identification-field">
+                <label for="personalIdNumber">Personal identification number (ID)</label>
+                <input type="text" id="personalIdNumber">
+            </div>
+            <br><br>
+            <div class="person-identification-field">
+                <label for="personalIdNumberIssuedBy" class="personal-id-number-present">
+                    Personal identification number issuer (country)</label>
+                <input class="personal-id-number-present" type="text" id="personalIdNumberIssuedBy">
+            </div>
+            <br><br>
+            <div class="person-identification-field">
+                <label for="identityDocumentType">Identification document type</label>
+                <input type="text" id="identityDocumentType" required>
+            </div>
+            <br><br>
+            <div class="person-identification-field">
+                <label for="identityDocumentNo">Identification document number</label>
+                <input type="text" id="identityDocumentNo" required>
+            </div>
+            <br><br>
+            <div class="person-identification-field">
+                <label for="identityDocumentIssuedBy">Identification document issuer (country)</label>
+                <input type="text" id="identityDocumentIssuedBy">
+            </div>
+            <br><br>
+            <div class="person-identification-field">
+                <label for="residentialDocumentType" class="identification-document-issuer-EU">
+                    Other document type</label>
+                <input class="identification-document-issuer-EU" type="text" id="residentialDocumentType">
+            </div>
+            <br><br>
+            <div class="person-identification-field">
+                <label for="residentialDocumentNo" class="identification-document-issuer-EU">
+                    Other document number</label>
+                <input class="identification-document-issuer-EU" type="text" id="residentialDocumentNo">
+            </div>
+            <br><br>
+            <div class="person-identification-field">
+                <label for="otherDocumentIssuedBy" class="identification-document-issuer-EU">
+                    Other document issuer (country)</label>
+                <input class="identification-document-issuer-EU" type="text" id="otherDocumentIssuedBy">
+            </div>
+            <br><br>
+            <div class="person-identification-field">
+                <label for="residentialCountry" class="other-document-issuer-EU">
+                    Country of permanent residence</label>
+                <input class="other-document-issuer-EU" type="text" id="residentialCountry">
+            </div>
+            <br><br>
+            <div class="person-identification-field">
+                <label for="residentialEUTerritory" class="other-document-issuer-EU">
+                    EU territory of permanent residence</label>
+                <input class="other-document-issuer-EU" type="text" id="residentialEUTerritory">
+            </div>
         </div>
+        <br><br>
         <div class="navigation-buttons">
             <button type="button" id="backBtn">Back</button>
             <button type="button" id="nextBtn">Next</button>
