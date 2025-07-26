@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sales document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <link th:href="@{/css/declaration.css}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/lt.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/searchable_select.js}"></script>
+    <script th:src="@{/js/date_picker_lt.js}"></script>
+    <script th:src="@{/js/sales_document.js}"></script>
+</head>
+<body class="bg-light px-4 py-4 green-gradient">
+<div class="container">
+    <form id="sales-document-details-form" th:action="@{/sales-document/details/submit}"
+          th:object="${declarationDto}" method="post">
+        <h2 class="mb-4 input-fields-group-header">Sales document information</h2>
+        <div class="text-danger" th:if="${#fields.hasGlobalErrors()}"
+             th:each="err : ${#fields.globalErrors()}" th:text="${err}">
+        </div>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label input-field-label">Select sales document type:</label>
+                <div class="form-check">
+                    <input class="form-check-input radio-field" type="radio" name="sales-document-type"
+                           id="cash-register-receipt-radio" required checked>
+                    <label class="form-check-label input-field-label" for="cash-register-receipt-radio">
+                        Cash register receipt</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input radio-field" type="radio" name="sales-document-type"
+                           id="invoice-radio">
+                    <label class="form-check-label input-field-label" for="invoice-radio">
+                        Invoice</label>
+                </div>
+            </div>
+        </div>
+        <div id="sales-document">
+            <div class="row g-3 mt-1">
+                <div id="cash-register-no-field" class="col-md-6">
+                    <label for="cash-register-no" class="form-label input-field-label">
+                        Cash register number (required)</label>
+                    <input type="text" id="cash-register-no"
+                        th:field="*{salesDocumentDto.cashRegisterReceipt.cashRegisterNo}"
+                        class="form-control input-field">
+                    <div class="text-danger"
+                        th:if="${#fields.hasErrors('salesDocumentDto.cashRegisterReceipt.cashRegisterNo')}"
+                        th:errors="*{salesDocumentDto.cashRegisterReceipt.cashRegisterNo}">
+                    </div>
+                </div>
+                <div id="cash-receipt-no-field" class="col-md-6">
+                    <label for="cash-receipt-no" class="form-label input-field-label">
+                        Cash receipt number (required)</label>
+                    <input type="text" id="cash-receipt-no"
+                        th:field="*{salesDocumentDto.cashRegisterReceipt.cashReceiptNo}"
+                        class="form-control input-field">
+                    <div class="text-danger"
+                        th:if="${#fields.hasErrors('salesDocumentDto.cashRegisterReceipt.cashReceiptNo')}"
+                        th:errors="*{salesDocumentDto.cashRegisterReceipt.cashReceiptNo}">
+                    </div>
+                </div>
+                <div id="invoice-no-field" class="col-md-6">
+                    <label for="invoice-no" class="form-label input-field-label">
+                        Invoice number (required)</label>
+                    <input type="text" id="invoice-no" th:field="*{salesDocumentDto.invoice.invoiceNo}"
+                        class="form-control input-field">
+                    <div class="text-danger" th:if="${#fields.hasErrors('salesDocumentDto.invoice.invoiceNo')}"
+                        th:errors="*{salesDocumentDto.invoice.invoiceNo}">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="sales-date" class="form-label input-field-label">
+                        Sales date (required)</label>
+                    <input type="text" id="sales-date" placeholder="Select a date:"
+                        th:field="*{salesDocumentDto.salesDate}"
+                        class="form-control input-field date-picker-lt" required>
+                    <div class="text-danger" th:if="${#fields.hasErrors('salesDocumentDto.salesDate')}"
+                        th:errors="*{salesDocumentDto.salesDate}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h2 class="mb-4 mt-5 input-fields-group-header">Goods information</h2>
+        <div id="goods-information">
+            <div th:each="product, stat : *{salesDocumentDto.products}" class="product-fields mb-5">
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-secondary btn-collapse" type="button"
+                            th:attr="data-bs-toggle='collapse',
+                            data-bs-target='#collapse-' + ${stat.index},
+                            aria-controls='collapse-' + ${stat.index},
+                            aria-expanded='true'">
+                            <span class="default-text">Toggle</span>
+                            <span class="hover-text">Toggle  <i class="fas fa-arrow-circle-down"></i></span>
+                    </button>
+                    <button class="btn btn-secondary btn-remove hidden" type="button"
+                            th:id="'removeBtn-' + ${stat.index}"
+                        onclick="removeProductFieldsGroup(this)">
+                            <span class="default-text">Remove</span>
+                            <span class="hover-text">Remove  <i class="fas fa-minus-circle"></i></span>
+                    </button>
+                </div>
+                <div class="collapse show row g-3 mt-1" th:id="'collapse-' + ${stat.index}">
+                    <div class="col-md-6">
+                        <label th:for="'product-description-' + ${stat.index}"
+                            class="form-label input-field-label">
+                            Product description (required)</label>
+                        <input type="text" th:id="'product-description-' + ${stat.index}"
+                            th:field="*{salesDocumentDto.products[__${stat.index}__].productDescription}"
+                            class="form-control input-field" required>
+                        <div class="text-danger"
+                            th:if="${#fields.hasErrors
+                            ('salesDocumentDto.products[' + stat.index + '].productDescription')}"
+                            th:errors="*{salesDocumentDto.products[__${stat.index}__].productDescription}">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label th:for="'product-quantity-' + ${stat.index}" class="form-label input-field-label">
+                            Product quantity (required)</label>
+                        <input type="number" th:id="'product-quantity-' + ${stat.index}"
+                            th:field="*{salesDocumentDto.products[__${stat.index}__].productQuantity}"
+                            class="form-control input-field" required>
+                        <div class="text-danger"
+                            th:if="${#fields.hasErrors
+                            ('salesDocumentDto.products[' + stat.index + '].productQuantity')}"
+                            th:errors="*{salesDocumentDto.products[__${stat.index}__].productQuantity}">
+                        </div>
+                    </div>
+                    <div th:id="'measurement-units-field-' + ${stat.index}" class="col-md-6">
+                        <label th:for="'measurement-units-' + ${stat.index}"
+                            class="form-label input-field-label measurement-units-label">
+                            Unit of measurement</label>
+                        <select th:id="'measurement-units-' + ${stat.index}"
+                            th:field="*{salesDocumentDto.products[__${stat.index}__].measurementUnits}"
+                            class="form-control input-field measurement-units-input searchable-select">
+                                <option value="" disabled>Select a measurement unit:</option>
+                                <option value=""></option>
+                                <option th:each="measurementUnit : ${measurementUnits}"
+                                        th:value="${measurementUnit}"
+                                        th:text="${measurementUnit.getShortLTEN()}">
+                                </option>
+                        </select>
+                        <div class="text-danger"
+                             th:if="${#fields.hasErrors
+                             ('salesDocumentDto.products[' + stat.index + '].measurementUnits')}"
+                             th:errors="*{salesDocumentDto.products[__${stat.index}__].measurementUnits}">
+                        </div>
+                    </div>
+                    <div th:id="'measurement-units-other-field-' + ${stat.index}" class="col-md-6">
+                        <label th:for="'measurement-units-other-' + ${stat.index}"
+                            class="form-label input-field-label measurement-units-other-label">
+                            Other unit of measurement</label>
+                        <input type="text" th:id="'measurement-units-other-' + ${stat.index}"
+                            th:field="*{salesDocumentDto.products[__${stat.index}__].measurementUnitsOther}"
+                            class="form-control input-field measurement-units-other-input">
+                        <div class="text-danger"
+                             th:if="${#fields.hasErrors
+                             ('salesDocumentDto.products[' + stat.index + '].measurementUnitsOther')}"
+                             th:errors="*{salesDocumentDto.products[__${stat.index}__].measurementUnitsOther}">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label th:for="'taxable-amount-' + ${stat.index}" class="form-label input-field-label">
+                            Taxable amount, EUR (required)</label>
+                        <input type="text" th:id="'taxable-amount-' + ${stat.index}"
+                            th:field="*{salesDocumentDto.products[__${stat.index}__].taxableAmount}"
+                            class="form-control input-field" required readonly>
+                        <div class="text-danger"
+                             th:if="${#fields.hasErrors
+                             ('salesDocumentDto.products[' + stat.index + '].taxableAmount')}"
+                             th:errors="*{salesDocumentDto.products[__${stat.index}__].taxableAmount}">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label th:for="'vat-amount-' + ${stat.index}" class="form-label input-field-label">
+                            VAT amount, EUR (required)</label>
+                        <input type="text" th:id="'vat-amount-' + ${stat.index}"
+                            th:field="*{salesDocumentDto.products[__${stat.index}__].vatAmount}"
+                            class="form-control input-field" required readonly>
+                        <div class="text-danger"
+                             th:if="${#fields.hasErrors
+                             ('salesDocumentDto.products[' + stat.index + '].vatAmount')}"
+                             th:errors="*{salesDocumentDto.products[__${stat.index}__].vatAmount}">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label th:for="'total-amount-' + ${stat.index}" class="form-label input-field-label">
+                            Total amount, EUR (required)</label>
+                        <input type="text" th:id="'total-amount-' + ${stat.index}"
+                            th:field="*{salesDocumentDto.products[__${stat.index}__].totalAmount}"
+                            class="form-control input-field" required>
+                        <div class="text-danger"
+                             th:if="${#fields.hasErrors
+                             ('salesDocumentDto.products[' + stat.index + '].totalAmount')}"
+                             th:errors="*{salesDocumentDto.products[__${stat.index}__].totalAmount}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-2 d-flex justify-content-between">
+            <button type="button" id="addBtn" class="btn btn-secondary btn-add">
+                <span class="default-text">Add</span>
+                <span class="hover-text">Add  <i class="fas fa-plus-circle"></i></span>
+            </button>
+        </div>
+        <div class="mt-5 d-flex justify-content-between">
+            <a th:href="@{/customer/details}" class="btn btn-secondary btn-back">
+                <span class="default-text">Back</span>
+                <span class="hover-text"><i class="fas fa-arrow-circle-left"></i> Back</span>
+            </a>
+            <button type="submit" class="btn btn-primary btn-next">
+                <span class="default-text">Next</span>
+                <span class="hover-text">Next  <i class="fas fa-arrow-circle-right"></i></span>
+            </button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

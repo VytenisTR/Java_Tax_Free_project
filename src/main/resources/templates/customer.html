@@ -3,92 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <title>Customer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <link th:href="@{/css/declaration.css}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/lt.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/searchable_select.js}"></script>
+    <script th:src="@{/js/date_picker_lt.js}"></script>
+    <script th:src="@{/js/customer.js}"></script>
 </head>
-<body>
-    <form id="person-details-form">
-        <h2>Customer information</h2>
-        <div class="person-details-fields">
-            <div class="person-details-field">
-                <label for="firstName">First name</label>
-                <input type="text" id="firstName" required>
+<body class="bg-light px-4 py-4 green-gradient">
+<div class="container">
+    <form id="customer-details-form" th:action="@{/customer/details/submit}"
+          th:object="${declarationDto}" method="post">
+        <h2 class="mb-4 input-fields-group-header">Customer Information</h2>
+        <div class="text-danger" th:if="${#fields.hasGlobalErrors()}"
+             th:each="err : ${#fields.globalErrors()}" th:text="${err}">
+        </div>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="first-name" class="form-label input-field-label">
+                    First Name (required)</label>
+                <input type="text" id="first-name" th:field="*{customerDto.person.firstName}"
+                    class="form-control input-field" required>
+                <div class="text-danger" th:if="${#fields.hasErrors('customerDto.person.firstName')}"
+                    th:errors="*{customerDto.person.firstName}">
+                </div>
             </div>
-            <br><br>
-            <div class="person-details-field">
-                <label for="lastName">Last name</label>
-                <input type="text" id="lastName" required>
+            <div class="col-md-6">
+                <label for="last-name" class="form-label input-field-label">
+                    Last Name (required)</label>
+                <input type="text" id="last-name" th:field="*{customerDto.person.lastName}"
+                    class="form-control input-field" required>
+                <div class="text-danger" th:if="${#fields.hasErrors('customerDto.person.lastName')}"
+                    th:errors="*{customerDto.person.lastName}">
+                </div>
             </div>
-            <br><br>
-            <div class="person-details-field">
-                <label for="customerBirthDate">Birthdate</label>
-                <input type="date" id="customerBirthDate" required>
+            <div class="col-md-6">
+                <label for="customer-birth-date" class="form-label input-field-label">
+                    Birthdate (required)</label>
+                <input type="text" id="customer-birth-date" placeholder="Select a date:"
+                    th:field="*{customerDto.person.birthDate}"
+                    class="form-control input-field date-picker-lt" required>
+                <div class="text-danger" th:if="${#fields.hasErrors('customerDto.person.birthDate')}"
+                    th:errors="*{customerDto.person.birthDate}">
+                </div>
             </div>
+        </div>
+        <h2 class="mb-4 mt-5 input-fields-group-header">Customer Identification Information</h2>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="personal-id-number" class="form-label input-field-label personal-id-number-label">
+                    Personal Identification Number (ID)</label>
+                <input type="text" id="personal-id-number"
+                    th:field="*{customerDto.personIdentification.personalIdNumber}"
+                    class="form-control input-field">
+                <div class="text-danger"
+                    th:if="${#fields.hasErrors('customerDto.personIdentification.personalIdNumber')}"
+                    th:errors="*{customerDto.personIdentification.personalIdNumber}">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="personal-id-number-issued-by"
+                    class="form-label input-field-label personal-id-number-issued-by-label">
+                    ID Issuer (Country)</label>
+                <select id="personal-id-number-issued-by"
+                    th:field="*{customerDto.personIdentification.idIssuedBy}"
+                    class="form-control input-field-disabled searchable-select" readonly>
+                        <option value="" disabled>Select a country:</option>
+                        <option th:each="country : ${allCountries}"
+                                th:value="${country}"
+                                th:text="${country.getLongEN()}">
+                        </option>
+                </select>
+                <div class="text-danger"
+                    th:if="${#fields.hasErrors('customerDto.personIdentification.idIssuedBy')}"
+                    th:errors="*{customerDto.personIdentification.idIssuedBy}">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="identity-document-type" class="form-label input-field-label">
+                    ID Document Type (required)</label>
+                <select id="identity-document-type"
+                    th:field="*{customerDto.identityDocument.identityDocumentType}"
+                    class="form-control input-field searchable-select" required>
+                        <option value="" disabled>Select a document type:</option>
+                        <option th:each="document : ${identityDocumentTypes}"
+                                th:value="${document}"
+                                th:text="${document.getLongEN()}">
+                        </option>
+                </select>
+                <div class="text-danger"
+                    th:if="${#fields.hasErrors('customerDto.identityDocument.identityDocumentType')}"
+                    th:errors="*{customerDto.identityDocument.identityDocumentType}">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="identity-document-no" class="form-label input-field-label">
+                    ID Document Number (required)</label>
+                <input type="text" id="identity-document-no"
+                    th:field="*{customerDto.identityDocument.identityDocumentNo}"
+                    class="form-control input-field" required>
+                <div class="text-danger"
+                    th:if="${#fields.hasErrors('customerDto.identityDocument.identityDocumentNo')}"
+                    th:errors="*{customerDto.identityDocument.identityDocumentNo}">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="identity-document-issued-by" class="form-label input-field-label">
+                    ID Document Issuer (Country) (required)</label>
+                <select id="identity-document-issued-by"
+                    th:field="*{customerDto.identityDocument.documentIssuedBy}"
+                    class="form-control input-field searchable-select" required>
+                        <option value="" disabled>Select a country:</option>
+                        <option th:each="country : ${allCountries}"
+                                th:value="${country}"
+                                th:text="${country.getLongEN()}">
+                        </option>
+                </select>
+                <div class="text-danger"
+                    th:if="${#fields.hasErrors('customerDto.identityDocument.documentIssuedBy')}"
+                    th:errors="*{customerDto.identityDocument.documentIssuedBy}">
+                </div>
+            </div>
+            <div id="other-document-field-1" class="col-md-6 hidden">
+                <label for="residential-document-type"
+                    class="form-label input-field-label other-document-field-1-label">
+                    Other Document Type</label>
+                <select id="residential-document-type"
+                    th:field="*{customerDto.residentialDocument.residentialDocumentType}"
+                    class="form-control input-field searchable-select">
+                        <option value="" disabled>Select a document type:</option>
+                        <option th:each="document : ${residentialDocumentTypes}"
+                                th:value="${document}"
+                                th:text="${document.getLongEN()}">
+                        </option>
+                </select>
+                <div class="text-danger"
+                    th:if="${#fields.hasErrors('customerDto.residentialDocument.residentialDocumentType')}"
+                    th:errors="*{customerDto.residentialDocument.residentialDocumentType}">
+                </div>
+            </div>
+            <div id="other-document-field-2" class="col-md-6 hidden">
+                <label for="residential-document-no"
+                    class="form-label input-field-label other-document-field-2-label">
+                    Other Document Number</label>
+                <input type="text" id="residential-document-no"
+                    th:field="*{customerDto.residentialDocument.residentialDocumentNo}"
+                    class="form-control input-field">
+                <div class="text-danger"
+                    th:if="${#fields.hasErrors('customerDto.residentialDocument.residentialDocumentNo')}"
+                    th:errors="*{customerDto.residentialDocument.residentialDocumentNo}">
+                </div>
+            </div>
+            <div id="other-document-field-3" class="col-md-6 hidden">
+                <label for="other-document-issued-by"
+                    class="form-label input-field-label other-document-field-3-label">
+                    Other Document Issuer (Country)</label>
+                <select id="other-document-issued-by"
+                    th:field="*{customerDto.residentialDocument.residentialDocumentIssuedBy}"
+                    class="form-control input-field searchable-select">
+                        <option value="" disabled>Select a country:</option>
+                        <option th:each="country : ${EUTerritoriesWithNonEUCountries}"
+                                th:value="${country}"
+                                th:text="${country.getLongEN()}">
+                        </option>
+                </select>
+                <div class="text-danger"
+                    th:if="${#fields.hasErrors('customerDto.residentialDocument.residentialDocumentIssuedBy')}"
+                    th:errors="*{customerDto.residentialDocument.residentialDocumentIssuedBy}">
+                </div>
+            </div>
+            <div id="permanent-residence-field" class="col-md-6 hidden">
+                <label for="residential-country"
+                    class="form-label input-field-label permanent-residence-field-label">
+                    Country of Permanent Residence</label>
+                <select id="residential-country"
+                    th:field="*{customerDto.residentialDocument.residentialCountry}"
+                    class="form-control input-field searchable-select">
+                        <option value="" disabled>Select a country:</option>
+                        <option th:each="country : ${nonEUCountries}"
+                                th:value="${country}"
+                                th:text="${country.getLongEN()}">
+                        </option>
+                </select>
+                <div class="text-danger"
+                    th:if="${#fields.hasErrors('customerDto.residentialDocument.residentialCountry')}"
+                    th:errors="*{customerDto.residentialDocument.residentialCountry}">
+                </div>
+            </div>
+            <div id="third-territory-EU-field" class="col-md-6 hidden">
+                <label for="residential-EU-territory"
+                    class="form-label input-field-label third-territory-EU-field-label">
+                    EU Territory of Residence</label>
+                <select id="residential-EU-territory"
+                    th:field="*{customerDto.residentialDocument.residentialEUTerritory}"
+                    class="form-control input-field searchable-select">
+                        <option value="" disabled>Select a territory:</option>
+                        <option th:each="territory : ${EUTerritoriesThirdCountries}"
+                                th:value="${territory}"
+                                th:text="${territory.getLongEN()}">
+                        </option>
+                </select>
+                <div class="text-danger"
+                    th:if="${#fields.hasErrors('customerDto.residentialDocument.residentialEUTerritory')}"
+                    th:errors="*{customerDto.residentialDocument.residentialEUTerritory}">
+                </div>
+            </div>
+        </div>
+        <div class="mt-5 d-flex justify-content-between">
+            <a th:href="@{/salesman/details}" class="btn btn-secondary btn-back">
+                <span class="default-text">Back</span>
+                <span class="hover-text"><i class="fas fa-arrow-circle-left"></i> Back</span>
+            </a>
+            <button type="submit" class="btn btn-primary btn-next">
+                <span class="default-text">Next</span>
+                <span class="hover-text">Next  <i class="fas fa-arrow-circle-right"></i></span>
+            </button>
         </div>
     </form>
-    <br><br>
-    <form id="person-identification-form">
-        <h2>Customer identification information</h2>
-        <div class="person-identification-fields">
-            <div class="person-identification-field">
-                <label for="personalIdNumber">Personal identification number (ID)</label>
-                <input type="text" id="personalIdNumber">
-            </div>
-            <br><br>
-            <div class="person-identification-field">
-                <label for="personalIdNumberIssuedBy" class="personal-id-number-present">
-                    Personal identification number issuer (country)</label>
-                <input class="personal-id-number-present" type="text" id="personalIdNumberIssuedBy">
-            </div>
-            <br><br>
-            <div class="person-identification-field">
-                <label for="identityDocumentType">Identification document type</label>
-                <input type="text" id="identityDocumentType" required>
-            </div>
-            <br><br>
-            <div class="person-identification-field">
-                <label for="identityDocumentNo">Identification document number</label>
-                <input type="text" id="identityDocumentNo" required>
-            </div>
-            <br><br>
-            <div class="person-identification-field">
-                <label for="identityDocumentIssuedBy">Identification document issuer (country)</label>
-                <input type="text" id="identityDocumentIssuedBy">
-            </div>
-            <br><br>
-            <div class="person-identification-field">
-                <label for="residentialDocumentType" class="identification-document-issuer-EU">
-                    Other document type</label>
-                <input class="identification-document-issuer-EU" type="text" id="residentialDocumentType">
-            </div>
-            <br><br>
-            <div class="person-identification-field">
-                <label for="residentialDocumentNo" class="identification-document-issuer-EU">
-                    Other document number</label>
-                <input class="identification-document-issuer-EU" type="text" id="residentialDocumentNo">
-            </div>
-            <br><br>
-            <div class="person-identification-field">
-                <label for="otherDocumentIssuedBy" class="identification-document-issuer-EU">
-                    Other document issuer (country)</label>
-                <input class="identification-document-issuer-EU" type="text" id="otherDocumentIssuedBy">
-            </div>
-            <br><br>
-            <div class="person-identification-field">
-                <label for="residentialCountry" class="other-document-issuer-EU">
-                    Country of permanent residence</label>
-                <input class="other-document-issuer-EU" type="text" id="residentialCountry">
-            </div>
-            <br><br>
-            <div class="person-identification-field">
-                <label for="residentialEUTerritory" class="other-document-issuer-EU">
-                    EU territory of permanent residence</label>
-                <input class="other-document-issuer-EU" type="text" id="residentialEUTerritory">
-            </div>
-        </div>
-        <br><br>
-        <div class="navigation-buttons">
-            <button type="button" id="backBtn">Back</button>
-            <button type="button" id="nextBtn">Next</button>
-        </div>
-    </form>
+</div>
 </body>
 </html>

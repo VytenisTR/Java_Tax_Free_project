@@ -3,31 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <title>Salesman</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <link th:href="@{/css/declaration.css}" rel="stylesheet">
+    <script th:src="@{/js/bootstrap.js}"></script>
 </head>
-<body>
-    <form id="salesman-details-form">
-        <h2>Salesman information</h2>
-        <div class="salesman-details-fields">
-            <div class="salesman-details-field">
-                <label for="vatPayerCode">VAT payer code</label>
-                <input type="number" id="vatPayerCode" required>
+<body class="bg-light px-4 py-4 green-gradient">
+<div class="container">
+    <form id="salesman-details-form" th:action="@{/salesman/details/submit}"
+          th:object="${declarationDto}" method="post">
+        <h2 class="mb-4 input-fields-group-header">Salesman information</h2>
+        <div class="text-danger" th:if="${#fields.hasGlobalErrors()}"
+             th:each="err : ${#fields.globalErrors()}" th:text="${err}">
+        </div>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="vat-payer-code" class="form-label input-field-label">
+                    VAT payer code (required)</label>
+                <input type="text" id="vat-payer-code" th:field="*{salesmanDto.vatPayerCode}"
+                    class="form-control input-field" required>
+                <div class="text-danger" th:if="${#fields.hasErrors('salesmanDto.vatPayerCode')}"
+                    th:errors="*{salesmanDto.vatPayerCode}">
+                </div>
             </div>
-            <br><br>
-            <div class="salesman-details-field">
-                <label for="vatPayerCodeIssuedBy">VAT payer's code issuer (country)</label>
-                <input type="text" id="vatPayerCodeIssuedBy" value="LT" required readonly>
+            <div class="col-md-6">
+                <label for="vat-payer-code-issued-by" class="form-label input-field-label">
+                    VAT payer's code issuer country (required)</label>
+                <input type="text" id="vat-payer-code-issued-by" value="Lithuania"
+                    class="form-control input-field-readonly" required readonly>
+                <input type="hidden" th:field="*{salesmanDto.vatCodeIssuer}">
+                <div class="text-danger" th:if="${#fields.hasErrors('salesmanDto.vatCodeIssuer')}"
+                    th:errors="*{salesmanDto.vatCodeIssuer}">
+                </div>
             </div>
-            <br><br>
-            <div class="salesman-details-field">
-                <label for="salesmanName">Salesman name</label>
-                <input type="text" id="salesmanName" required>
+            <div class="col-md-6">
+                <label for="salesman-name" class="form-label input-field-label">
+                    Salesman name (required)</label>
+                <input type="text" id="salesman-name" th:field="*{salesmanDto.salesmanName}"
+                    class="form-control input-field" required>
+                <div class="text-danger" th:if="${#fields.hasErrors('salesmanDto.salesmanName')}"
+                    th:errors="*{salesmanDto.salesmanName}">
+                </div>
             </div>
         </div>
-        <br><br>
-        <div class="navigation-buttons">
-            <button type="button" id="backBtn">Back</button>
-            <button type="button" id="nextBtn">Next</button>
+        <div class="mt-5 d-flex justify-content-between">
+            <button type="submit" id="nextBtn" class="btn btn-primary btn-next">
+                <span class="default-text">Next</span>
+                <span class="hover-text">Next  <i class="fas fa-arrow-circle-right"></i></span>
+            </button>
         </div>
     </form>
+</div>
 </body>
 </html>
