@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Access Denied</title>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <link th:href="@{/css/declaration.css}" rel="stylesheet">
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/redirection.js}"></script>
+</head>
+<body class="bg-light d-flex justify-content-center align-items-center vh-100 green-gradient">
+<div class="text-center">
+    <h1 class="display-4 text-danger">404 - Resource Not Found</h1>
+    <br>
+    <p class="lead error-text">Our highly trained monkeys are working
+        <span class="monkey-text">tirelessly</span> to correct this.</p>
+    <br>
+    <p class="mb-0 confirmation-text">You will be redirected to the homepage in
+        <strong><span id="countdown">5</span></strong> seconds.</p>
+    <div class="text-center mt-4">
+        <a th:href="@{/static}" class="btn btn-outline-primary me-2">Return to Home Now</a>
+    </div>
+</div>
+</body>
+</html>

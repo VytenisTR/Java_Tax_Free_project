@@ -8,6 +8,48 @@ html {
     background: linear-gradient(135deg, #70de6f, #80db7f, #9ae099) fixed;
 }
 
+h1, h3 {
+    font-family: Garamond, serif;
+    font-weight: 600;
+}
+
+.home {
+    border: 6px solid #1f5a12;
+}
+
+.login {
+    border: 6px solid #1f5a12;
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-text {
+    font-family: OpenSans, sans-serif;
+}
+
+.home-buttons, .login-button {
+    font-family: OpenSans, sans-serif;
+    font-weight: 500;
+}
+
+.confirmation-text, .error-text {
+    font-family: Montserrat, serif;
+    font-size: 18px;
+}
+
+.role-text {
+    font-family: Montserrat, serif;
+}
+
+.monkey-text {
+    font-weight: 900;
+}
+
+.confirmation {
+    border: 6px solid #1f5a12;
+    background-color: #ffffff;
+}
+
 .input-fields-group-header {
     font-family: Montserrat, serif;
     font-weight: 900;

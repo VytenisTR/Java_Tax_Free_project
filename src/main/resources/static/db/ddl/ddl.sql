@@ -84,6 +84,24 @@ CREATE TABLE IF NOT EXISTS residential_document_types (
                                name_lt VARCHAR(100) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS users (
+                                     id BIGSERIAL PRIMARY KEY,
+                                     username VARCHAR(50) UNIQUE NOT NULL,
+                                     password VARCHAR(100) NOT NULL,
+                                     enabled BOOLEAN NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS roles (
+                                     id BIGSERIAL PRIMARY KEY,
+                                     name VARCHAR(50) UNIQUE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS users_roles (
+                                           user_id BIGINT NOT NULL REFERENCES users(id),
+                                           role_id BIGINT NOT NULL REFERENCES roles(id),
+                                           PRIMARY KEY (user_id, role_id)
+);
+
 --FOREIGN KEY CONSTRAINTS
 ALTER TABLE declarations DROP CONSTRAINT IF EXISTS fk_salesman;
 ALTER TABLE declarations ADD CONSTRAINT fk_salesman FOREIGN KEY (salesman_id) REFERENCES salesman(id);

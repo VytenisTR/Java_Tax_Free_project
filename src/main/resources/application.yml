@@ -21,3 +21,12 @@ spring:
     init:
       mode: always
       schema-locations: classpath:schema.sql
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+
+server:
+  servlet:
+    session:
+      timeout: 5m

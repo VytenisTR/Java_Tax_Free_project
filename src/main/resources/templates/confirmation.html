@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>Submission Successful</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <link th:href="@{/css/declaration.css}" rel="stylesheet">
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/redirection.js}"></script>
+</head>
+<body class="bg-light d-flex align-items-center justify-content-center vh-100 green-gradient">
+<div class="container text-center mt-5">
+    <div class="card shadow-lg p-5 rounded-5 home">
+        <h4 class="alert-heading"><i class="fa-solid fa-square-check" style="color: #1f5a12;"></i>
+            Declaration Submitted Successfully!
+            <i class="fa-solid fa-square-check" style="color: #1f5a12;"></i></h4>
+        <br>
+        <p class="mb-0 confirmation-text">You will be redirected to the homepage in
+            <strong><span id="countdown">5</span></strong> seconds.</p>
+        <div class="text-center mt-4">
+            <a th:href="@{/}" class="btn btn-outline-primary me-2">Return to Home Now</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

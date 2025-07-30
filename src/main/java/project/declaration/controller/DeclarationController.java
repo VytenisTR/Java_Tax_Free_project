@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -62,7 +63,18 @@ public class DeclarationController {
                 .build();
     }
 
+    @GetMapping(HttpEndpoint.HOME)
+    public String homePage() {
+        return HttpEndpoint.HOME_VIEW;
+    }
+
+    @GetMapping(HttpEndpoint.CONFIRMATION)
+    public String confirmationPage() {
+        return HttpEndpoint.CONFIRMATION_VIEW;
+    }
+
     @GetMapping(HttpEndpoint.SALESMAN)
+    @PreAuthorize("hasRole('ADMIN')")
     public String getSalesmanDetails(@ModelAttribute("declarationDto") DeclarationDto declarationDto) {
         declarationDto.getSalesmanDto().setVatCodeIssuer(EUCountries.LT); //Prefilled field
 
@@ -70,6 +82,7 @@ public class DeclarationController {
     }
 
     @PostMapping(HttpEndpoint.SALESMAN_SUBMIT)
+    @PreAuthorize("hasRole('ADMIN')")
     public String submitSalesmanDetails(@ModelAttribute("declarationDto") @Valid DeclarationDto declarationDto,
                                         BindingResult formErrors) {
         if (formErrors.hasErrors()) {
@@ -81,6 +94,7 @@ public class DeclarationController {
     }
 
     @GetMapping(HttpEndpoint.CUSTOMER)
+    @PreAuthorize("hasRole('ADMIN')")
     public String getCustomerDetails(@ModelAttribute("declarationDto") DeclarationDto declarationDto,
                                      Model model) {
         passEnumValuesCustomer(model);
@@ -89,6 +103,7 @@ public class DeclarationController {
     }
 
     @PostMapping(HttpEndpoint.CUSTOMER_SUBMIT)
+    @PreAuthorize("hasRole('ADMIN')")
     public String submitCustomerDetails(@ModelAttribute("declarationDto") @Valid DeclarationDto declarationDto,
                                         BindingResult formErrors, Model model) {
         if (formErrors.hasErrors()) {
@@ -100,6 +115,7 @@ public class DeclarationController {
     }
 
     @GetMapping(HttpEndpoint.SALES_DOCUMENT)
+    @PreAuthorize("hasRole('ADMIN')")
     public String getSalesDocumentDetails(@ModelAttribute("declarationDto") DeclarationDto declarationDto,
                                           Model model) {
         passEnumValuesSalesDocument(model);
@@ -108,6 +124,7 @@ public class DeclarationController {
     }
 
     @PostMapping(HttpEndpoint.SALES_DOCUMENT_SUBMIT)
+    @PreAuthorize("hasRole('ADMIN')")
     public String submitSalesDocumentDetails(@ModelAttribute("declarationDto") @Valid DeclarationDto declarationDto,
                                              BindingResult formErrors, Model model) {
         if (formErrors.hasErrors()) {
@@ -119,11 +136,13 @@ public class DeclarationController {
     }
 
     @GetMapping(HttpEndpoint.INTERMEDIARY)
+    @PreAuthorize("hasRole('ADMIN')")
     public String getIntermediaryDetails(@ModelAttribute("declarationDto") DeclarationDto declarationDto) {
         return HttpEndpoint.INTERMEDIARY_VIEW;
     }
 
     @PostMapping(HttpEndpoint.INTERMEDIARY_SUBMIT)
+    @PreAuthorize("hasRole('ADMIN')")
     public String submitIntermediaryDetails(@ModelAttribute("declarationDto") @Valid DeclarationDto declarationDto,
                                             BindingResult formErrors, SessionStatus status) throws JsonProcessingException {
         if (formErrors.hasErrors()) {
@@ -135,7 +154,7 @@ public class DeclarationController {
         log.debug("Declaration JSON: {}", new ObjectMapper().writeValueAsString(declarationDto));
         //Logs the final declaration for debugging
 
-        return "redirect:" + HttpEndpoint.HOME;
+        return "redirect:" + HttpEndpoint.CONFIRMATION;
     }
 
     private void passEnumValuesCustomer(Model model) {

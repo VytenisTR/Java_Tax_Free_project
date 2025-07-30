@@ -19,3 +19,15 @@ INSERT INTO residential_document_types (code, name_en, name_lt) VALUES
 ('CERTIFICATE', 'Certificate', 'Pažyma'),
 ('EXCERPT', 'Excerpt', 'Išrašas'),
 ('OTHER', 'Other', 'Kita');
+
+INSERT INTO users (id, username, password, enabled) VALUES
+(1, 'admin', '$2a$12$CSAX2ASzPpvttvj0/YvG4uTO5lfFibFMRRaqTVg8tzmrKymQAhWMq', true),
+(2, 'user', '$2a$12$V5EqxSU7MOq1aWl.JkykpeMASryqpN/i1B/8EfUI0I9BP2R0zXgXS', true);
+
+INSERT INTO roles (id, name) VALUES
+(1, 'ADMIN'),
+(2, 'USER');
+
+INSERT INTO users_roles (user_id, role_id) VALUES
+(1, 1),
+(2, 2);
