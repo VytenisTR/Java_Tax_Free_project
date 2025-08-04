@@ -9,4 +9,6 @@ import java.util.UUID;
 public interface DeclarationRepository extends JpaRepository<DeclarationEntity, Long> {
 
     boolean existsByDeclarationUUID(UUID declarationUUID);
+
+    void deleteByDeclarationUUID(UUID declarationUUID);
 }

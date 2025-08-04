@@ -10,9 +10,7 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidProductDescription {
-    String message() default "Product description can be comprised of both letters " +
-            "and numbers (with the special symbols (only / and -) as well as whitespaces) and " +
-            "must be at least 1 character and no more than 500 characters in length!";
+    String message() default "{custom.validator.valid-product-description}";
 
     Class<?>[] groups() default { };
 

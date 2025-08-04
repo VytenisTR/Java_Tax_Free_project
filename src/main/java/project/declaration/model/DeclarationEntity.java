@@ -25,6 +25,9 @@ public class DeclarationEntity {
     @Column(name = "declaration_date", nullable = false)
     private LocalDate declarationDate;
 
+    @Column(name = "declaration_version", nullable = false)
+    private Integer declarationVersion;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "salesman_id", referencedColumnName = "id")
     private SalesmanEntity salesman;

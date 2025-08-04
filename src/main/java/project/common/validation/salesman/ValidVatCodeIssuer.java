@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidVatCodeIssuer {
-    String message() default "VAT code issuer must always be Lithuania!";
+    String message() default "{custom.validator.valid-vat-code-issuer}";
 
     Class<?>[] groups() default { };
 

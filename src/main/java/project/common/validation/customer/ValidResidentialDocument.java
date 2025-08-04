@@ -11,8 +11,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidResidentialDocument {
-    String message() default "If at least one the fields for other document is filled in, " +
-            "the remaining fields for other document must also be filled in!";
+    String message() default "{custom.validator.valid-residential-document}";
 
     Class<?>[] groups() default { };
 

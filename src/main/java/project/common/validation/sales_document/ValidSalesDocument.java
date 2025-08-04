@@ -10,8 +10,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidSalesDocument {
-    String message() default "Sales document must be filled in - " +
-            "either fields for the cash register receipt or fields for the invoice!";
+    String message() default "{custom.validator.valid-sales-document}";
 
     Class<?>[] groups() default { };
 

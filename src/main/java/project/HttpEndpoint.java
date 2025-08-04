@@ -16,11 +16,14 @@ public final class HttpEndpoint {
     public static final String INTERMEDIARY = "/intermediary/details";
     public static final String INTERMEDIARY_SUBMIT = INTERMEDIARY + "/submit";
     public static final String INTERMEDIARY_VIEW = "intermediary";
+    public static final String DECLARATIONS = "/declarations";
+    public static final String DECLARATIONS_VIEW = "declarations";
+    public static final String DECLARATION_DELETE = "/delete-declaration/{declarationUUID}";
     public static final String CONFIRMATION = "/confirmation";
     public static final String CONFIRMATION_VIEW = "confirmation";
     public static final String LOGIN = "/login";
     public static final String LOGIN_VIEW = "login";
-    public static final String LOGOUT = "/login?logout";
+    public static final String LOGOUT = "/logout";
     public static final String ACCESS_DENIED = "/access-denied";
     public static final String ACCESS_DENIED_VIEW = "access-denied";
 }

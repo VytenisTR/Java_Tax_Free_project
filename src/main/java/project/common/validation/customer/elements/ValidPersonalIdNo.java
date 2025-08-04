@@ -10,9 +10,7 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidPersonalIdNo {
-    String message() default "Personal ID number can be comprised of both letters " +
-            "and numbers (with the special symbols (only / and -), but no whitespaces) and " +
-            "must be at least 1 character and no more than 50 characters in length!";
+    String message() default "{custom.validator.valid-personal-id-no}";
 
     Class<?>[] groups() default { };
 

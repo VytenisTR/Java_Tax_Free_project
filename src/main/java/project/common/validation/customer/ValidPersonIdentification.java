@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidPersonIdentification {
-    String message() default "ID issuer is required when the personal identification number (ID) is provided!";
+    String message() default "{custom.validator.valid-person-identification}";
 
     Class<?>[] groups() default { };
 

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 <head>
     <meta charset="UTF-8">
-    <title>Sales document</title>
+    <title th:text="#{sales-document.title}"></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
@@ -19,32 +19,35 @@
 <div class="container">
     <form id="sales-document-details-form" th:action="@{/sales-document/details/submit}"
           th:object="${declarationDto}" method="post">
-        <h2 class="mb-4 input-fields-group-header">Sales document information</h2>
+        <h2 class="mb-4 input-fields-group-header" th:text="#{sales-document.document-header}"></h2>
         <div class="text-danger" th:if="${#fields.hasGlobalErrors()}"
              th:each="err : ${#fields.globalErrors()}" th:text="${err}">
         </div>
         <div class="row g-3">
             <div class="col-md-6">
-                <label class="form-label input-field-label">Select sales document type:</label>
+                <label class="form-label input-field-label"
+                    th:text="#{sales-document.document-type-selection}"></label>
                 <div class="form-check">
                     <input class="form-check-input radio-field" type="radio" name="sales-document-type"
-                           id="cash-register-receipt-radio" required checked>
-                    <label class="form-check-label input-field-label" for="cash-register-receipt-radio">
-                        Cash register receipt</label>
+                        id="cash-register-receipt-radio" required checked>
+                    <label class="form-check-label input-field-label" for="cash-register-receipt-radio"
+                        th:text="#{sales-document.cash-register-receipt}"></label>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input radio-field" type="radio" name="sales-document-type"
-                           id="invoice-radio">
-                    <label class="form-check-label input-field-label" for="invoice-radio">
-                        Invoice</label>
+                        id="invoice-radio">
+                    <label class="form-check-label input-field-label" for="invoice-radio"
+                        th:text="#{sales-document.invoice}"></label>
                 </div>
             </div>
         </div>
         <div id="sales-document">
             <div class="row g-3 mt-1">
                 <div id="cash-register-no-field" class="col-md-6">
-                    <label for="cash-register-no" class="form-label input-field-label">
-                        Cash register number (required)</label>
+                    <label for="cash-register-no" class="form-label input-field-label cash-register-no-label"
+                        th:data-label-option1="#{sales-document.cash-register-number}"
+                        th:data-label-option2="#{sales-document.cash-register-number-required}"
+                        th:text="#{sales-document.cash-register-number}"></label>
                     <input type="text" id="cash-register-no"
                         th:field="*{salesDocumentDto.cashRegisterReceipt.cashRegisterNo}"
                         class="form-control input-field">
@@ -54,8 +57,10 @@
                     </div>
                 </div>
                 <div id="cash-receipt-no-field" class="col-md-6">
-                    <label for="cash-receipt-no" class="form-label input-field-label">
-                        Cash receipt number (required)</label>
+                    <label for="cash-receipt-no" class="form-label input-field-label cash-receipt-no-label"
+                        th:data-label-option1="#{sales-document.cash-receipt-number}"
+                        th:data-label-option2="#{sales-document.cash-receipt-number-required}"
+                        th:text="#{sales-document.cash-receipt-number}"></label>
                     <input type="text" id="cash-receipt-no"
                         th:field="*{salesDocumentDto.cashRegisterReceipt.cashReceiptNo}"
                         class="form-control input-field">
@@ -65,8 +70,10 @@
                     </div>
                 </div>
                 <div id="invoice-no-field" class="col-md-6">
-                    <label for="invoice-no" class="form-label input-field-label">
-                        Invoice number (required)</label>
+                    <label for="invoice-no" class="form-label input-field-label invoice-no-label"
+                        th:data-label-option1="#{sales-document.invoice-number}"
+                        th:data-label-option2="#{sales-document.invoice-number-required}"
+                        th:text="#{sales-document.invoice-number}"></label>
                     <input type="text" id="invoice-no" th:field="*{salesDocumentDto.invoice.invoiceNo}"
                         class="form-control input-field">
                     <div class="text-danger" th:if="${#fields.hasErrors('salesDocumentDto.invoice.invoiceNo')}"
@@ -74,9 +81,9 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <label for="sales-date" class="form-label input-field-label">
-                        Sales date (required)</label>
-                    <input type="text" id="sales-date" placeholder="Select a date:"
+                    <label for="sales-date" class="form-label input-field-label"
+                        th:text="#{sales-document.sales-date}"></label>
+                    <input type="text" id="sales-date" th:placeholder="#{general.date-select}"
                         th:field="*{salesDocumentDto.salesDate}"
                         class="form-control input-field date-picker-lt" required>
                     <div class="text-danger" th:if="${#fields.hasErrors('salesDocumentDto.salesDate')}"
@@ -85,30 +92,37 @@
                 </div>
             </div>
         </div>
-        <h2 class="mb-4 mt-5 input-fields-group-header">Goods information</h2>
+        <h2 class="mb-4 mt-5 input-fields-group-header" th:text="#{sales-document.goods-header}"></h2>
         <div id="goods-information">
             <div th:each="product, stat : *{salesDocumentDto.products}" class="product-fields mb-5">
                 <div class="d-flex justify-content-between">
                     <button class="btn btn-secondary btn-collapse" type="button"
+                            th:id="'toggleBtn-' + ${stat.index}"
                             th:attr="data-bs-toggle='collapse',
-                            data-bs-target='#collapse-' + ${stat.index},
-                            aria-controls='collapse-' + ${stat.index},
-                            aria-expanded='true'">
-                            <span class="default-text">Toggle</span>
-                            <span class="hover-text">Toggle  <i class="fas fa-arrow-circle-down"></i></span>
+                                    data-bs-target='#collapse-' + ${stat.index},
+                                    aria-controls='collapse-' + ${stat.index},
+                                    aria-expanded='true'"
+                            th:data-label-option1="#{button.show-fields}"
+                            th:data-label-option2="#{button.hide-fields}">
+                            <span class="default-text" th:text="#{button.hide-fields}"></span>
+                            <span class="hover-text">
+                                <span class="hover-label" th:text="#{button.hide-fields} + '  '"></span>
+                                <i class="fas fa-arrow-circle-down"></i></span>
                     </button>
                     <button class="btn btn-secondary btn-remove hidden" type="button"
                             th:id="'removeBtn-' + ${stat.index}"
                         onclick="removeProductFieldsGroup(this)">
-                            <span class="default-text">Remove</span>
-                            <span class="hover-text">Remove  <i class="fas fa-minus-circle"></i></span>
+                            <span class="default-text" th:text="#{button.remove}"></span>
+                            <span class="hover-text">
+                                <span th:text="#{button.remove} + '  '"></span>
+                                <i class="fas fa-minus-circle"></i></span>
                     </button>
                 </div>
                 <div class="collapse show row g-3 mt-1" th:id="'collapse-' + ${stat.index}">
                     <div class="col-md-6">
                         <label th:for="'product-description-' + ${stat.index}"
-                            class="form-label input-field-label">
-                            Product description (required)</label>
+                            class="form-label input-field-label"
+                            th:text="#{sales-document.product-description}"></label>
                         <input type="text" th:id="'product-description-' + ${stat.index}"
                             th:field="*{salesDocumentDto.products[__${stat.index}__].productDescription}"
                             class="form-control input-field" required>
@@ -119,8 +133,8 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label th:for="'product-quantity-' + ${stat.index}" class="form-label input-field-label">
-                            Product quantity (required)</label>
+                        <label th:for="'product-quantity-' + ${stat.index}" class="form-label input-field-label"
+                            th:text="#{sales-document.product-quantity}"></label>
                         <input type="number" th:id="'product-quantity-' + ${stat.index}"
                             th:field="*{salesDocumentDto.products[__${stat.index}__].productQuantity}"
                             class="form-control input-field" required>
@@ -132,71 +146,78 @@
                     </div>
                     <div th:id="'measurement-units-field-' + ${stat.index}" class="col-md-6">
                         <label th:for="'measurement-units-' + ${stat.index}"
-                            class="form-label input-field-label measurement-units-label">
-                            Unit of measurement</label>
+                            class="form-label input-field-label measurement-units-label"
+                            th:data-label-option1="#{sales-document.unit-of-measurement}"
+                            th:data-label-option2="#{sales-document.unit-of-measurement-required}"
+                            th:text="#{sales-document.unit-of-measurement}"></label>
                         <select th:id="'measurement-units-' + ${stat.index}"
                             th:field="*{salesDocumentDto.products[__${stat.index}__].measurementUnits}"
                             class="form-control input-field measurement-units-input searchable-select">
-                                <option value="" disabled>Select a measurement unit:</option>
+                                <option value="" disabled
+                                        th:text="#{sales-document.unit-of-measurement-select}"></option>
                                 <option value=""></option>
                                 <option th:each="measurementUnit : ${measurementUnits}"
                                         th:value="${measurementUnit}"
-                                        th:text="${measurementUnit.getShortLTEN()}">
+                                        th:text="${#locale.language == 'en' ?
+                                        measurementUnit.getShortLTEN() :
+                                        measurementUnit.getShortLTEN() + ' - ' + measurementUnit.getLongLT()}">
                                 </option>
                         </select>
                         <div class="text-danger"
-                             th:if="${#fields.hasErrors
-                             ('salesDocumentDto.products[' + stat.index + '].measurementUnits')}"
-                             th:errors="*{salesDocumentDto.products[__${stat.index}__].measurementUnits}">
+                            th:if="${#fields.hasErrors
+                            ('salesDocumentDto.products[' + stat.index + '].measurementUnits')}"
+                            th:errors="*{salesDocumentDto.products[__${stat.index}__].measurementUnits}">
                         </div>
                     </div>
                     <div th:id="'measurement-units-other-field-' + ${stat.index}" class="col-md-6">
                         <label th:for="'measurement-units-other-' + ${stat.index}"
-                            class="form-label input-field-label measurement-units-other-label">
-                            Other unit of measurement</label>
+                            class="form-label input-field-label measurement-units-other-label"
+                            th:data-label-option1="#{sales-document.unit-of-measurement-other}"
+                            th:data-label-option2="#{sales-document.unit-of-measurement-other-required}"
+                            th:text="#{sales-document.unit-of-measurement-other}"></label>
                         <input type="text" th:id="'measurement-units-other-' + ${stat.index}"
                             th:field="*{salesDocumentDto.products[__${stat.index}__].measurementUnitsOther}"
                             class="form-control input-field measurement-units-other-input">
                         <div class="text-danger"
-                             th:if="${#fields.hasErrors
-                             ('salesDocumentDto.products[' + stat.index + '].measurementUnitsOther')}"
-                             th:errors="*{salesDocumentDto.products[__${stat.index}__].measurementUnitsOther}">
+                            th:if="${#fields.hasErrors
+                            ('salesDocumentDto.products[' + stat.index + '].measurementUnitsOther')}"
+                            th:errors="*{salesDocumentDto.products[__${stat.index}__].measurementUnitsOther}">
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label th:for="'taxable-amount-' + ${stat.index}" class="form-label input-field-label">
-                            Taxable amount, EUR (required)</label>
+                        <label th:for="'taxable-amount-' + ${stat.index}" class="form-label input-field-label"
+                            th:text="#{sales-document.taxable-amount}"></label>
                         <input type="text" th:id="'taxable-amount-' + ${stat.index}"
                             th:field="*{salesDocumentDto.products[__${stat.index}__].taxableAmount}"
                             class="form-control input-field" required readonly>
                         <div class="text-danger"
-                             th:if="${#fields.hasErrors
-                             ('salesDocumentDto.products[' + stat.index + '].taxableAmount')}"
-                             th:errors="*{salesDocumentDto.products[__${stat.index}__].taxableAmount}">
+                            th:if="${#fields.hasErrors
+                            ('salesDocumentDto.products[' + stat.index + '].taxableAmount')}"
+                            th:errors="*{salesDocumentDto.products[__${stat.index}__].taxableAmount}">
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label th:for="'vat-amount-' + ${stat.index}" class="form-label input-field-label">
-                            VAT amount, EUR (required)</label>
+                        <label th:for="'vat-amount-' + ${stat.index}" class="form-label input-field-label"
+                            th:text="#{sales-document.vat-amount}"></label>
                         <input type="text" th:id="'vat-amount-' + ${stat.index}"
                             th:field="*{salesDocumentDto.products[__${stat.index}__].vatAmount}"
                             class="form-control input-field" required readonly>
                         <div class="text-danger"
-                             th:if="${#fields.hasErrors
-                             ('salesDocumentDto.products[' + stat.index + '].vatAmount')}"
-                             th:errors="*{salesDocumentDto.products[__${stat.index}__].vatAmount}">
+                            th:if="${#fields.hasErrors
+                            ('salesDocumentDto.products[' + stat.index + '].vatAmount')}"
+                            th:errors="*{salesDocumentDto.products[__${stat.index}__].vatAmount}">
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label th:for="'total-amount-' + ${stat.index}" class="form-label input-field-label">
-                            Total amount, EUR (required)</label>
+                        <label th:for="'total-amount-' + ${stat.index}" class="form-label input-field-label"
+                            th:text="#{sales-document.total-amount}"></label>
                         <input type="text" th:id="'total-amount-' + ${stat.index}"
                             th:field="*{salesDocumentDto.products[__${stat.index}__].totalAmount}"
                             class="form-control input-field" required>
                         <div class="text-danger"
-                             th:if="${#fields.hasErrors
-                             ('salesDocumentDto.products[' + stat.index + '].totalAmount')}"
-                             th:errors="*{salesDocumentDto.products[__${stat.index}__].totalAmount}">
+                            th:if="${#fields.hasErrors
+                            ('salesDocumentDto.products[' + stat.index + '].totalAmount')}"
+                            th:errors="*{salesDocumentDto.products[__${stat.index}__].totalAmount}">
                         </div>
                     </div>
                 </div>
@@ -204,18 +225,21 @@
         </div>
         <div class="mt-2 d-flex justify-content-between">
             <button type="button" id="addBtn" class="btn btn-secondary btn-add">
-                <span class="default-text">Add</span>
-                <span class="hover-text">Add  <i class="fas fa-plus-circle"></i></span>
+                <span class="default-text" th:text="#{button.add}"></span>
+                <span class="hover-text">
+                    <span th:text="#{button.add} + '  '"></span><i class="fas fa-plus-circle"></i></span>
             </button>
         </div>
         <div class="mt-5 d-flex justify-content-between">
             <a th:href="@{/customer/details}" class="btn btn-secondary btn-back">
-                <span class="default-text">Back</span>
-                <span class="hover-text"><i class="fas fa-arrow-circle-left"></i> Back</span>
+                <span class="default-text" th:text="#{button.back}"></span>
+                <span class="hover-text"><i class="fas fa-arrow-circle-left"></i>
+                    <span th:text="'  ' + #{button.back}"></span></span>
             </a>
             <button type="submit" class="btn btn-primary btn-next">
-                <span class="default-text">Next</span>
-                <span class="hover-text">Next  <i class="fas fa-arrow-circle-right"></i></span>
+                <span class="default-text" th:text="#{button.next}"></span>
+                <span class="hover-text">
+                    <span th:text="#{button.next} + '  '"></span><i class="fas fa-arrow-circle-right"></i></span>
             </button>
         </div>
     </form>

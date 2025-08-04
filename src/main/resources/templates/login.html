@@ -1,32 +1,44 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title th:text="#{login.title}"></title>
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
     <link th:href="@{/css/declaration.css}" rel="stylesheet">
     <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/searchable_select.js}"></script>
 </head>
 <body class="bg-light d-flex justify-content-center align-items-center vh-100 green-gradient">
 <div class="card shadow p-4 login">
-    <h3 class="text-center mb-4">Login</h3>
+    <h3 class="text-center mb-4" th:text="#{login.header}"></h3>
     <form th:action="@{/login}" method="post">
-        <div th:if="${param.error}" class="alert alert-danger" role="alert">
-            Invalid username or password!
+        <div th:if="${param.error}" class="alert alert-danger" role="alert" th:text="#{login.invalid-message}">
         </div>
-        <div th:if="${param.logout}" class="alert alert-success" role="alert">
-            You have been logged out.
+        <div th:if="${param.logout}" class="alert alert-success" role="alert" th:text="#{login.loggedout-message}">
         </div>
         <div class="mb-3">
-            <label for="username" class="form-label login-text">Username:</label>
+            <label for="username" class="form-label login-text" th:text="#{login.username}"></label>
             <input type="text" id="username" name="username" class="form-control" required autofocus>
         </div>
         <div class="mb-3">
-            <label for="password" class="form-label login-text">Password:</label>
+            <label for="password" class="form-label login-text" th:text="#{login.password}"></label>
             <input type="password" id="password" name="password" class="form-control" required>
         </div>
         <div class="d-grid">
-            <button type="submit" class="btn btn-primary login-button">Login</button>
+            <button type="submit" class="btn btn-primary login-button" th:text="#{login.button}"></button>
+        </div>
+    </form>
+    <form th:action="@{/login}" method="get" class="mt-4">
+        <div class="mb-3">
+            <label for="language-select" class="form-label login-text" th:text="#{login.language}"></label>
+            <select id="language-select" name="lang"
+                class="form-select searchable-select" onchange="this.form.submit()" required>
+                <option value="" disabled th:text="#{login.language-select}"></option>
+                <option value="en" th:selected="${#locale.language == 'en'}"
+                        th:text="#{login.language-en}"></option>
+                <option value="lt" th:selected="${#locale.language == 'lt'}"
+                        th:text="#{login.language-lt}"></option>
+            </select>
         </div>
     </form>
 </div>

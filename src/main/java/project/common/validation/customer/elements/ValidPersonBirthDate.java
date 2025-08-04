@@ -10,8 +10,7 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidPersonBirthDate {
-    String message() default "Birthdate must be after 1920-01-01 " +
-            "and before today's date excluding 18 years!";
+    String message() default "{custom.validator.valid-person-birthdate}";
 
     Class<?>[] groups() default { };
 

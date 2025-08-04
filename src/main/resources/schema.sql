@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS declarations (
                               declaration_uuid UUID PRIMARY KEY,
                               declaration_date DATE NOT NULL,
+                              declaration_version BIGINT NOT NULL,
                               salesman_id BIGINT,
                               customer_id BIGINT,
                               sales_document_id BIGINT,

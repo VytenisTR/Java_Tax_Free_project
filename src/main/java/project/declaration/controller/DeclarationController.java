@@ -6,15 +6,15 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.HttpEndpoint;
 import project.declaration.elements.customer.CustomerDto;
 import project.declaration.elements.customer.nested_dto.IdentityDocument;
@@ -28,10 +28,12 @@ import project.declaration.elements.sales_document.nested_dto.CashRegisterReceip
 import project.declaration.elements.sales_document.nested_dto.Invoice;
 import project.declaration.elements.sales_document.nested_dto.ProductDto;
 import project.declaration.elements.salesman.SalesmanDto;
+import project.declaration.model.DeclarationEntity;
 import project.declaration.service.DeclarationService;
 import project.enums.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -155,6 +157,30 @@ public class DeclarationController {
         //Logs the final declaration for debugging
 
         return "redirect:" + HttpEndpoint.CONFIRMATION;
+    }
+
+    @GetMapping(HttpEndpoint.DECLARATIONS)
+    public String viewDeclarations(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "10") int pageSize,
+            Model model) {
+
+        Page<DeclarationEntity> declarationPage =
+                declarationService.getPaginatedDeclarations(PageRequest.of(pageNumber, pageSize));
+        model.addAttribute("declarations", declarationPage.getContent());
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalPages", declarationPage.getTotalPages());
+
+        return HttpEndpoint.DECLARATIONS_VIEW;
+    }
+
+    @PostMapping(HttpEndpoint.DECLARATION_DELETE)
+    public String deleteDeclaration(@PathVariable UUID declarationUUID, RedirectAttributes redirectAttributes) {
+        declarationService.deleteByDeclarationUUID(declarationUUID);
+        redirectAttributes.addFlashAttribute("successMessage",
+                "Declaration has been deleted successfully!");
+
+        return "redirect:" + HttpEndpoint.DECLARATIONS_VIEW;
     }
 
     private void passEnumValuesCustomer(Model model) {

@@ -13,4 +13,4 @@ function updateCountdown() {
     }
 }
 
-window.onload = updateCountdown;
+window.addEventListener("DOMContentLoaded", updateCountdown);

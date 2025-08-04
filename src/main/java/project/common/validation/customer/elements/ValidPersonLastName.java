@@ -10,9 +10,7 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidPersonLastName {
-    String message() default "Last name must use Lithuanian characters " +
-            "(without the special symbols or whitespaces) " +
-            "and must be at least 1 character and no more than 200 characters in length!";
+    String message() default "{custom.validator.valid-person-last-name}";
 
     Class<?>[] groups() default { };
 

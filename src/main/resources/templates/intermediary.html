@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 <head>
     <meta charset="UTF-8">
-    <title>Intermediary</title>
+    <title th:text="#{intermediary.title}"></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
     <link th:href="@{/css/declaration.css}" rel="stylesheet">
@@ -13,7 +13,7 @@
 <div class="container">
     <form id="intermediary-details-form" th:action="@{/intermediary/details/submit}"
           th:object="${declarationDto}" method="post">
-        <h2 class="mb-4 input-fields-group-header">Intermediary information</h2>
+        <h2 class="mb-4 input-fields-group-header" th:text="#{intermediary.header}"></h2>
         <div class="text-danger" th:if="${#fields.hasGlobalErrors()}"
              th:each="err : ${#fields.globalErrors()}" th:text="${err}">
         </div>
@@ -21,16 +21,17 @@
             <div class="form-check mx-2">
                 <input class="form-check-input checkbox" type="checkbox" id="no-intermediary"
                     th:field="*{intermediaryDto.noIntermediaryUsed}">
-                <label class="form-check-label input-field-label" for="no-intermediary">
-                    Intermediary not used
-                </label>
+                <label class="form-check-label input-field-label" for="no-intermediary"
+                    th:text="#{intermediary.not-used}"></label>
             </div>
         </div>
         <div class="row g-3 mt-2">
             <div class="col-md-6">
                 <label for="intermediary-name"
-                    class="form-label input-field-label intermediary-name-label">
-                    Intermediary name</label>
+                    class="form-label input-field-label intermediary-name-label"
+                    th:data-label-option1="#{intermediary.name}"
+                    th:data-label-option2="#{intermediary.name-required}"
+                    th:text="#{intermediary.name}"></label>
                 <input type="text" id="intermediary-name" th:field="*{intermediaryDto.intermediaryName}"
                     class="form-control input-field">
                 <div class="text-danger" th:if="${#fields.hasErrors('intermediaryDto.intermediaryName')}"
@@ -39,8 +40,10 @@
             </div>
             <div class="col-md-6">
                 <label for="intermediary-id-number"
-                    class="form-label input-field-label intermediary-id-number-label">
-                    Intermediary identification number</label>
+                    class="form-label input-field-label intermediary-id-number-label"
+                    th:data-label-option1="#{intermediary.id-number}"
+                    th:data-label-option2="#{intermediary.id-number-required}"
+                    th:text="#{intermediary.id-number}"></label>
                 <input type="text" id="intermediary-id-number" th:field="*{intermediaryDto.intermediaryIdNumber}"
                     class="form-control input-field">
                 <div class="text-danger" th:if="${#fields.hasErrors('intermediaryDto.intermediaryIdNumber')}"
@@ -50,12 +53,14 @@
         </div>
         <div class="mt-5 d-flex justify-content-between">
             <a th:href="@{/sales-document/details}" class="btn btn-secondary btn-back">
-                <span class="default-text">Back</span>
-                <span class="hover-text"><i class="fas fa-arrow-circle-left"></i> Back</span>
+                <span class="default-text" th:text="#{button.back}"></span>
+                <span class="hover-text"><i class="fas fa-arrow-circle-left"></i>
+                    <span th:text="'  ' + #{button.back}"></span></span>
             </a>
             <button type="submit" class="btn btn-primary btn-next">
-                <span class="default-text">Submit</span>
-                <span class="hover-text">Submit  <i class="fas fa-circle-check"></i></span>
+                <span class="default-text" th:text="#{button.submit}"></span>
+                <span class="hover-text">
+                    <span th:text="#{button.submit} + '  '"></span><i class="fas fa-circle-check"></i></span>
             </button>
         </div>
     </form>

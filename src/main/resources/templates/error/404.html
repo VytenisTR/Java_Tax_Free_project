@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 <head>
     <meta charset="UTF-8">
-    <title>Access Denied</title>
+    <title th:text="#{not-found.title}"></title>
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
     <link th:href="@{/css/declaration.css}" rel="stylesheet">
     <script th:src="@{/js/bootstrap.js}"></script>
@@ -10,15 +10,19 @@
 </head>
 <body class="bg-light d-flex justify-content-center align-items-center vh-100 green-gradient">
 <div class="text-center">
-    <h1 class="display-4 text-danger">404 - Resource Not Found</h1>
+    <h1 class="display-4 text-danger" th:text="#{not-found.header}"><strong></strong></h1>
     <br>
-    <p class="lead error-text">Our highly trained monkeys are working
-        <span class="monkey-text">tirelessly</span> to correct this.</p>
+    <p class="lead error-text">
+        <span th:text="#{not-found.message-monkeys}"></span>
+        <span class="monkey-text" th:text="#{not-found.message-monkeys-hard-working}"></span>
+        <span th:text="#{not-found.message-monkeys-correcting}"></span></p>
     <br>
-    <p class="mb-0 confirmation-text">You will be redirected to the homepage in
-        <strong><span id="countdown">5</span></strong> seconds.</p>
+    <p class="mb-0 confirmation-text">
+        <span th:text="#{home.redirection-message}"></span>
+        <strong><span id="countdown" th:text="#{home.redirection-message-seconds-left}"></span></strong>
+        <span th:text="#{home.redirection-message-seconds}"></span></p>
     <div class="text-center mt-4">
-        <a th:href="@{/static}" class="btn btn-outline-primary me-2">Return to Home Now</a>
+        <a th:href="@{/static}" class="btn btn-outline-primary me-2" th:text="#{button.return-home}"></a>
     </div>
 </div>
 </body>

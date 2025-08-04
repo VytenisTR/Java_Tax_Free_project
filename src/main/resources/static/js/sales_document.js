@@ -2,6 +2,9 @@ function toggleRadioButtonsFieldsGroup() {
     const cashRegisterNoField = document.getElementById("cash-register-no-field");
     const cashReceiptNoField = document.getElementById("cash-receipt-no-field");
     const invoiceNoField = document.getElementById("invoice-no-field");
+    const cashRegisterNoFieldLabel= document.querySelector(".cash-register-no-label");
+    const cashReceiptNoFieldLabel= document.querySelector(".cash-receipt-no-label");
+    const invoiceNoFieldLabel= document.querySelector(".invoice-no-label");
     const cashRegisterReceiptRadioButton =
         document.getElementById("cash-register-receipt-radio");
     const invoiceRadioButton = document.getElementById("invoice-radio");
@@ -9,26 +12,32 @@ function toggleRadioButtonsFieldsGroup() {
     function toggleRadioButtonsFields() {
         if (cashRegisterReceiptRadioButton.checked) {
             cashRegisterNoField.classList.remove("hidden");
-            cashReceiptNoField.classList.remove("hidden");
             cashRegisterNoField.querySelector("#cash-register-no")
                 .setAttribute("required", "required");
+            cashRegisterNoFieldLabel.textContent = cashRegisterNoFieldLabel.dataset.labelOption2;
+            cashReceiptNoField.classList.remove("hidden");
             cashReceiptNoField.querySelector("#cash-receipt-no")
                 .setAttribute("required", "required");
+            cashReceiptNoFieldLabel.textContent = cashReceiptNoFieldLabel.dataset.labelOption2;
 
             invoiceNoField.classList.add("hidden");
             invoiceNoField.querySelector("#invoice-no")
                 .removeAttribute("required");
+            invoiceNoFieldLabel.textContent = invoiceNoFieldLabel.dataset.labelOption1;
         } else if (invoiceRadioButton.checked) {
             cashRegisterNoField.classList.add("hidden");
-            cashReceiptNoField.classList.add("hidden");
             cashRegisterNoField.querySelector("#cash-register-no")
                 .removeAttribute("required");
+            cashRegisterNoFieldLabel.textContent = cashRegisterNoFieldLabel.dataset.labelOption1;
+            cashReceiptNoField.classList.add("hidden");
             cashReceiptNoField.querySelector("#cash-receipt-no")
                 .removeAttribute("required");
+            cashReceiptNoFieldLabel.textContent = cashReceiptNoFieldLabel.dataset.labelOption1;
 
             invoiceNoField.classList.remove("hidden");
             invoiceNoField.querySelector("#invoice-no")
                 .setAttribute("required", "required");
+            invoiceNoFieldLabel.textContent = invoiceNoFieldLabel.dataset.labelOption2;
         }
     }
 
@@ -58,7 +67,7 @@ function toggleMeasurementUnitFieldsGroup(productFieldsGroup, productGroupIndex)
                 .classList.add("input-field");
             measurementUnitsGroup.querySelector(`[id="measurement-units-${productGroupIndex}"]`)
                 .classList.remove("input-field-disabled");
-            measurementUnitsLabel.textContent = "Unit of measurement (required)";
+            measurementUnitsLabel.textContent = measurementUnitsLabel.dataset.labelOption2;
 
             measurementUnitsOtherGroup.querySelector(".measurement-units-other-input")
                 .setAttribute("readonly", "readonly");
@@ -93,7 +102,7 @@ function toggleMeasurementUnitFieldsGroup(productFieldsGroup, productGroupIndex)
             measurementUnitsOtherGroup
                 .querySelector(`[id="measurement-units-other-${productGroupIndex}"]`)
                 .classList.remove("input-field-disabled");
-            measurementUnitsOtherLabel.textContent = "Other unit of measurement (required)";
+            measurementUnitsOtherLabel.textContent = measurementUnitsOtherLabel.dataset.labelOption2;
         } else {
             measurementUnitsGroup.querySelector(".measurement-units-input")
                 .removeAttribute("readonly");
@@ -104,7 +113,7 @@ function toggleMeasurementUnitFieldsGroup(productFieldsGroup, productGroupIndex)
                 .classList.add("input-field");
             measurementUnitsGroup.querySelector(`[id="measurement-units-${productGroupIndex}"]`)
                 .classList.remove("input-field-disabled");
-            measurementUnitsLabel.textContent = "Unit of measurement";
+            measurementUnitsLabel.textContent = measurementUnitsLabel.dataset.labelOption1;
 
             measurementUnitsOtherGroup.querySelector(".measurement-units-other-input")
                 .removeAttribute("readonly");
@@ -117,7 +126,7 @@ function toggleMeasurementUnitFieldsGroup(productFieldsGroup, productGroupIndex)
             measurementUnitsOtherGroup
                 .querySelector(`[id="measurement-units-other-${productGroupIndex}"]`)
                 .classList.remove("input-field-disabled");
-            measurementUnitsOtherLabel.textContent = "Other unit of measurement";
+            measurementUnitsOtherLabel.textContent = measurementUnitsOtherLabel.dataset.labelOption1;
         }
     }
 
@@ -145,6 +154,28 @@ function calculateTaxableAndVatAmountFields(productFieldsGroup, productGroupInde
     }
 
     totalAmount.addEventListener("input", calculateTaxableAndVatAmount);
+}
+
+function toggleHideShowFieldsButtons(productFieldsGroup, productGroupIndex) {
+    const toggleButton = productFieldsGroup.querySelector('[id^="toggleBtn-"]');
+    const collapseElement = productFieldsGroup.querySelector(`[id="collapse-${productGroupIndex}"]`);
+    const defaultButtonText = toggleButton.querySelector('.default-text');
+    const hoverButtonText = toggleButton.querySelector('.hover-label');
+    const hoverButtonIcon = toggleButton.querySelector('.hover-text i');
+
+    collapseElement.addEventListener('show.bs.collapse', function () {
+        defaultButtonText.textContent = toggleButton.dataset.labelOption2;
+        hoverButtonText.textContent = toggleButton.dataset.labelOption2 + '  ';
+        hoverButtonIcon.classList.remove('fa-arrow-circle-up');
+        hoverButtonIcon.classList.add('fa-arrow-circle-down');
+    });
+
+    collapseElement.addEventListener('hide.bs.collapse', function () {
+        defaultButtonText.textContent = toggleButton.dataset.labelOption1;
+        hoverButtonText.textContent = toggleButton.dataset.labelOption1 + '  ';
+        hoverButtonIcon.classList.remove('fa-arrow-circle-down');
+        hoverButtonIcon.classList.add('fa-arrow-circle-up');
+    });
 }
 
 function addProductFieldsGroup() {
@@ -235,6 +266,7 @@ function reindexProductFieldsGroups() {
 
         toggleMeasurementUnitFieldsGroup(productFieldsGroup, newGroupIndex);
         calculateTaxableAndVatAmountFields(productFieldsGroup, newGroupIndex);
+        toggleHideShowFieldsButtons(productFieldsGroup, newGroupIndex);
     });
 }
 
@@ -249,6 +281,7 @@ document.addEventListener("DOMContentLoaded", function() {
         measurementUnitsField.querySelector(".measurement-units-input").value = "";
         toggleMeasurementUnitFieldsGroup(firstProductGroup, 0);
         calculateTaxableAndVatAmountFields(firstProductGroup, 0);
+        toggleHideShowFieldsButtons(firstProductGroup, 0);
     }
 
     document.getElementById("addBtn").addEventListener("click", addProductFieldsGroup);

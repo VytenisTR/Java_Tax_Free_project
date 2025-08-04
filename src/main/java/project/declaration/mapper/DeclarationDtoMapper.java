@@ -72,6 +72,7 @@ public class DeclarationDtoMapper {
         DeclarationEntity declarationEntity = DeclarationEntity.builder()
                 .declarationUUID(UUID.randomUUID())
                 .declarationDate(LocalDate.parse(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))))
+                .declarationVersion(1)
                 .salesman(salesmanEntity)
                 .customer(customerEntity)
                 .salesDocument(salesDocumentEntity)

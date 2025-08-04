@@ -10,18 +10,18 @@ function toggleIntermediaryFieldsGroup() {
     function toggleIntermediaryFields() {
         if (intermediaryName.value.trim() !== "" || intermediaryIdNumber.value.trim() !== "") {
                     intermediaryName.setAttribute("required", "required");
-                    intermediaryNameLabel.textContent = "Intermediary name (required)";
+                    intermediaryNameLabel.textContent = intermediaryNameLabel.dataset.labelOption2;
 
                     intermediaryIdNumber.setAttribute("required", "required");
-                    intermediaryIdNumberLabel.textContent = "Intermediary identification number (required)";
+                    intermediaryIdNumberLabel.textContent = intermediaryIdNumberLabel.dataset.labelOption2;
 
                     intermediaryNotUsed.setAttribute("disabled", "disabled");
         } else {
             intermediaryName.removeAttribute("required");
-            intermediaryNameLabel.textContent = "Intermediary name";
+            intermediaryNameLabel.textContent = intermediaryNameLabel.dataset.labelOption1;
 
             intermediaryIdNumber.removeAttribute("required");
-            intermediaryIdNumberLabel.textContent = "Intermediary identification number";
+            intermediaryIdNumberLabel.textContent = intermediaryIdNumberLabel.dataset.labelOption1;
 
             intermediaryNotUsed.removeAttribute("disabled");
         }
@@ -44,19 +44,19 @@ function toggleIntermediaryNotUsedField() {
         if (intermediaryNotUsed.checked) {
             intermediaryName.removeAttribute("required");
             intermediaryName.setAttribute("disabled", "disabled");
-            intermediaryNameLabel.textContent = "Intermediary name";
+            intermediaryNameLabel.textContent = intermediaryNameLabel.dataset.labelOption1;
 
             intermediaryIdNumber.removeAttribute("required");
             intermediaryIdNumber.setAttribute("disabled", "disabled");
-            intermediaryIdNumberLabel.textContent = "Intermediary identification number";
+            intermediaryIdNumberLabel.textContent = intermediaryIdNumberLabel.dataset.labelOption1;
         } else {
             intermediaryName.removeAttribute("required");
             intermediaryName.removeAttribute("disabled");
-            intermediaryNameLabel.textContent = "Intermediary name";
+            intermediaryNameLabel.textContent = intermediaryNameLabel.dataset.labelOption1;
 
             intermediaryIdNumber.removeAttribute("required");
             intermediaryIdNumber.removeAttribute("disabled");
-            intermediaryIdNumberLabel.textContent = "Intermediary identification number";
+            intermediaryIdNumberLabel.textContent = intermediaryIdNumberLabel.dataset.labelOption1;
 
             intermediaryNotUsed.removeAttribute("disabled");
         }

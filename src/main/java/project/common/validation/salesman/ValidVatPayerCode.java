@@ -10,8 +10,7 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidVatPayerCode {
-    String message() default "VAT payer code should be in the following format: " +
-            "'LT' + 9 or 12 digits after it!";
+    String message() default "{custom.validator.valid-vat-payer-code}";
 
     Class<?>[] groups() default { };
 

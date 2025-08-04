@@ -10,9 +10,7 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidIntermediaryIdNo {
-    String message() default "Intermediary identification number can be comprised of both letters " +
-            "and numbers (with the special symbols (only / and -), but no whitespaces) and " +
-            "must be at least 6 characters and no more than 10 characters in length!";
+    String message() default "{custom.validator.valid-intermediary-id-no}";
 
     Class<?>[] groups() default { };
 

@@ -12,8 +12,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import project.HttpEndpoint;
 import project.security.service.CustomUserDetailsService;
+import java.util.Locale;
 
 @Configuration
 @EnableWebSecurity
@@ -29,17 +31,31 @@ public class BasicSecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/submit/**").hasRole("ADMIN")
                         .requestMatchers("/details/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/css/**", "/js/**").permitAll()
+                        .requestMatchers(HttpEndpoint.LOGIN, HttpEndpoint.LOGOUT,
+                                "/css/**", "/js/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
                         .loginPage(HttpEndpoint.LOGIN)
+                        .loginProcessingUrl(HttpEndpoint.LOGIN)
                         .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutSuccessUrl(HttpEndpoint.LOGOUT)
-                        .permitAll()
+                        .logoutUrl(HttpEndpoint.LOGOUT)
+                        .addLogoutHandler((request, response,
+                                           authentication) -> {
+                            Locale locale = (Locale) request.getSession()
+                                    .getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
+                            if (locale != null) {
+                                request.setAttribute("lang", locale.getLanguage());
+                            }
+                        })
+                        .logoutSuccessHandler((request, response,
+                                               authentication) -> {
+                            String sessionLanguage = (String) request.getAttribute("lang");
+                            response.sendRedirect("/login?logout&lang=" + sessionLanguage);
+                        })
                 )
                 .exceptionHandling(exception -> exception
                         .accessDeniedPage(HttpEndpoint.ACCESS_DENIED)

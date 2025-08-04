@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{declarations.title}"></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <link th:href="@{/css/declaration.css}" rel="stylesheet">
+    <script th:src="@{/js/bootstrap.js}"></script>
+</head>
+<body class="bg-light container mt-5 green-gradient">
+<h2 class="mb-4 text-center input-fields-group-header" th:text="#{declarations.header}"></h2>
+<div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+    <tr>
+        <th th:text="#{declarations.table-no}"></th>
+        <th th:text="#{declarations.table-declaration-id}"></th>
+        <th th:text="#{declarations.table-declaration-version}"></th>
+        <th th:text="#{declarations.table-action}"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="declaration, stat : ${declarations}">
+        <td th:text="${stat.index + 1 + currentPage * 10}"></td>
+        <td th:text="${declaration.declarationUUID}"></td>
+        <td th:text="${declaration.declarationVersion}"></td>
+        <td>
+            <form th:action="@{'/delete-declaration/' + ${declaration.declarationUUID}}" method="post"
+                  th:object="${declaration}">
+                <button type="submit" class="btn btn-danger btn-sm">X</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<nav th:if="${totalPages > 1}">
+    <ul class="pagination">
+        <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+            <a class="page-link" th:href="@{'/declarations?(pageNumber=' + ${currentPage - 1} + ')'}"
+               th:text="#{button.previous-page}"></a>
+        </li>
+        <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+            th:classappend="${i == currentPage} ? 'active'">
+            <a class="page-link" th:href="@{'/declarations?(pageNumber=' + ${i} + ')'}"
+               th:text="${i + 1}"></a>
+        </li>
+        <li class="page-item" th:classappend="${currentPage + 1 >= totalPages} ? 'disabled'">
+            <a class="page-link" th:href="@{'/declarations?(pageNumber=' + ${currentPage + 1} + ')'}"
+               th:text="#{button.next-page}"></a>
+        </li>
+    </ul>
+</nav>
+<div class="mt-5 d-flex justify-content-between">
+    <a th:href="@{/}" class="btn btn-secondary btn-back">
+        <span class="default-text" th:text="#{button.back}"></span>
+        <span class="hover-text"><i class="fas fa-arrow-circle-left"></i>
+            <span th:text="'  ' + #{button.back}"></span></span>
+    </a>
+</div>
+</body>
+</html>

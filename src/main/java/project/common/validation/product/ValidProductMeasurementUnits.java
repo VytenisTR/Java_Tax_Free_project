@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidProductMeasurementUnits {
-    String message() default "Only one of the product unit measurement fields must be filled in!";
+    String message() default "{custom.validator.valid-product-measurement-units}";
 
     Class<?>[] groups() default { };
 

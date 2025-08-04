@@ -10,9 +10,7 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidCashReceiptNo {
-    String message() default "Cash receipt number can be comprised of both letters " +
-            "and numbers (with the special symbols (only / and -), but no whitespaces) and " +
-            "must be at least 1 character and no more than 70 characters in length!";
+    String message() default "{custom.validator.valid-cash-receipt-no}";
 
     Class<?>[] groups() default { };
 

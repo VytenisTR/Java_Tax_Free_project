@@ -9,23 +9,23 @@ function togglePersonalIdNumberFieldsGroup() {
     function togglePersonalIdNumberFields() {
         if (personalIdNumber.value.trim() !== "") {
                     personalIdNumber.setAttribute("required", "required");
-                    personalIdNumberLabel.textContent = "Personal identification number (ID) (required)"
+                    personalIdNumberLabel.textContent = personalIdNumberLabel.dataset.labelOption2;
 
                     personalIdNumberIssuedBy.setAttribute("required", "required");
                     personalIdNumberIssuedBy.removeAttribute("readonly");
                     personalIdNumberIssuedBy.classList.add("input-field");
                     personalIdNumberIssuedBy.classList.remove("input-field-disabled");
-                    personalIdNumberIssuedByLabel.textContent = "ID Issuer (Country) (required)";
+                    personalIdNumberIssuedByLabel.textContent = personalIdNumberIssuedByLabel.dataset.labelOption2;
         } else {
             personalIdNumber.removeAttribute("required");
-            personalIdNumberLabel.textContent = "Personal identification number (ID)";
+            personalIdNumberLabel.textContent = personalIdNumberLabel.dataset.labelOption1;
 
             personalIdNumberIssuedBy.setAttribute("readonly", "readonly");
             personalIdNumberIssuedBy.removeAttribute("required");
             personalIdNumberIssuedBy.classList.add("input-field-disabled");
             personalIdNumberIssuedBy.classList.remove("input-field");
             personalIdNumberIssuedBy.value = "";
-            personalIdNumberIssuedByLabel.textContent = "ID Issuer (Country)";
+            personalIdNumberIssuedByLabel.textContent = personalIdNumberIssuedByLabel.dataset.labelOption1;
         }
     }
 
@@ -53,42 +53,42 @@ function toggleOtherDocumentFieldsGroup() {
         if (isItIssuedByEUUK(idDocumentIssuer.value.trim())) {
             otherDocumentField1.classList.remove("hidden");
             otherDocumentField1.setAttribute("required", "required");
-            otherDocumentField1Label.textContent = "Other Document Type (required)";
+            otherDocumentField1Label.textContent = otherDocumentField1Label.dataset.labelOption2;
 
             otherDocumentField2.classList.remove("hidden");
             otherDocumentField2.setAttribute("required", "required");
-            otherDocumentField2Label.textContent = "Other Document Number (required)";
+            otherDocumentField2Label.textContent = otherDocumentField2Label.dataset.labelOption2;
 
             otherDocumentField3.classList.remove("hidden");
             otherDocumentField3.setAttribute("required", "required");
-            otherDocumentField3Label.textContent = "Other Document Issuer (Country) (required)";
+            otherDocumentField3Label.textContent = otherDocumentField3Label.dataset.labelOption2;
 
             toggleEUThirdTerritoriesFieldsGroup();
         } else {
             otherDocumentField1.classList.add("hidden");
             otherDocumentField1.removeAttribute("required");
             otherDocumentField1.querySelector("#residential-document-type").value = "";
-            otherDocumentField1Label.textContent = "Other Document Type";
+            otherDocumentField1Label.textContent = otherDocumentField1Label.dataset.labelOption1;
 
             otherDocumentField2.classList.add("hidden");
             otherDocumentField2.removeAttribute("required");
             otherDocumentField2.querySelector("#residential-document-no").value = "";
-            otherDocumentField2Label.textContent = "Other Document Number";
+            otherDocumentField2Label.textContent = otherDocumentField2Label.dataset.labelOption1;
 
             otherDocumentField3.classList.add("hidden");
             otherDocumentField3.removeAttribute("required");
             otherDocumentField3.querySelector("#other-document-issued-by").value = "";
-            otherDocumentField3Label.textContent = "Other Document Issuer (Country)";
+            otherDocumentField3Label.textContent = otherDocumentField3Label.dataset.labelOption1;
 
             permanentResidenceField.classList.add("hidden");
             permanentResidenceField.removeAttribute("required");
             permanentResidenceField.querySelector("#residential-country").value = "";
-            permanentResidenceFieldLabel.textContent = "Country of Permanent Residence";
+            permanentResidenceFieldLabel.textContent = permanentResidenceFieldLabel.dataset.labelOption1;
 
             thirdTerritoriesEUField.classList.add("hidden");
             thirdTerritoriesEUField.removeAttribute("required");
             thirdTerritoriesEUField.querySelector("#residential-EU-territory").value = "";
-            thirdTerritoriesEUFieldLabel.textContent = "EU Territory of Residence";
+            thirdTerritoriesEUFieldLabel.textContent = thirdTerritoriesEUFieldLabel.dataset.labelOption1;
         }
     }
 
@@ -96,7 +96,8 @@ function toggleOtherDocumentFieldsGroup() {
 }
 
 function toggleEUThirdTerritoriesFieldsGroup() {
-    const otherDocumentIssuer = document.getElementById("other-document-issued-by");
+    const residentialDocumentIssuer =
+        document.getElementById("residential-document-issued-by");
     const permanentResidenceField = document
         .getElementById("permanent-residence-field");
     const thirdTerritoriesEUField = document
@@ -107,40 +108,40 @@ function toggleEUThirdTerritoriesFieldsGroup() {
         .querySelector(".third-territory-EU-field-label");
 
     function toggleEUThirdTerritoriesFields() {
-        if (isItIssuedByEUThirdTerritories(otherDocumentIssuer.value.trim())) {
+        if (isItIssuedByEUThirdTerritories(residentialDocumentIssuer.value.trim())) {
             permanentResidenceField.classList.add("hidden");
             permanentResidenceField.removeAttribute("required");
             permanentResidenceField.querySelector("#residential-country").value = "";
-            permanentResidenceFieldLabel.textContent = "Country of Permanent Residence";
+            permanentResidenceFieldLabel.textContent = permanentResidenceFieldLabel.dataset.labelOption1;
 
             thirdTerritoriesEUField.classList.remove("hidden");
             thirdTerritoriesEUField.setAttribute("required", "required");
             thirdTerritoriesEUField.querySelector("#residential-EU-territory").value = "";
-            thirdTerritoriesEUFieldLabel.textContent = "EU Territory of Residence (required)";
-        } else if (!isItIssuedByEUThirdTerritories(otherDocumentIssuer.value.trim())) {
+            thirdTerritoriesEUFieldLabel.textContent = thirdTerritoriesEUFieldLabel.dataset.labelOption2;
+        } else if (!isItIssuedByEUThirdTerritories(residentialDocumentIssuer.value.trim())) {
             permanentResidenceField.classList.remove("hidden");
             permanentResidenceField.setAttribute("required", "required");
             permanentResidenceField.querySelector("#residential-country").value = "";
-            permanentResidenceFieldLabel.textContent = "Country of Permanent Residence (required)";
+            permanentResidenceFieldLabel.textContent = permanentResidenceFieldLabel.dataset.labelOption2;
 
             thirdTerritoriesEUField.classList.add("hidden");
             thirdTerritoriesEUField.removeAttribute("required");
             thirdTerritoriesEUField.querySelector("#residential-EU-territory").value = "";
-            thirdTerritoriesEUFieldLabel.textContent = "EU Territory of Residence";
+            thirdTerritoriesEUFieldLabel.textContent = thirdTerritoriesEUFieldLabel.dataset.labelOption1;
         } else {
             permanentResidenceField.classList.add("hidden");
             permanentResidenceField.removeAttribute("required");
             permanentResidenceField.querySelector("#residential-country").value = "";
-            permanentResidenceFieldLabel.textContent = "Country of Permanent Residence";
+            permanentResidenceFieldLabel.textContent = permanentResidenceFieldLabel.dataset.labelOption1;
 
             thirdTerritoriesEUField.classList.add("hidden");
             thirdTerritoriesEUField.removeAttribute("required");
             thirdTerritoriesEUField.querySelector("#residential-EU-territory").value = "";
-            thirdTerritoriesEUFieldLabel.textContent = "EU Territory of Residence";
+            thirdTerritoriesEUFieldLabel.textContent = thirdTerritoriesEUFieldLabel.dataset.labelOption1;
         }
     }
 
-    otherDocumentIssuer.addEventListener("change", toggleEUThirdTerritoriesFields);
+    residentialDocumentIssuer.addEventListener("change", toggleEUThirdTerritoriesFields);
 }
 
 function isItIssuedByEUUK(country) {
@@ -168,11 +169,11 @@ function isItIssuedByEUThirdTerritories(country) {
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("personal-id-number-issued-by").value = "";
     document.getElementById("identity-document-issued-by").value = "";
-    document.getElementById("other-document-issued-by").value = "";
-    document.getElementById("residential-country").value = "";
-    document.getElementById("residential-EU-territory").value = "";
     document.getElementById("identity-document-type").value = "";
     document.getElementById("residential-document-type").value = "";
+    document.getElementById("residential-document-issued-by").value = "";
+    document.getElementById("residential-country").value = "";
+    document.getElementById("residential-EU-territory").value = "";
     togglePersonalIdNumberFieldsGroup();
     toggleOtherDocumentFieldsGroup();
 })

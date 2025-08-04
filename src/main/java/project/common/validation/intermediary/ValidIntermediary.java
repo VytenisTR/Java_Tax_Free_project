@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidIntermediary {
-    String message() default "Intermediary information must be filled in!";
+    String message() default "{custom.validator.valid-intermediary}";
 
     Class<?>[] groups() default { };
 

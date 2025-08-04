@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en" >
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 <head>
     <meta charset="UTF-8">
-    <title>Submission Successful</title>
+    <title th:text="#{confirmation.title}"></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
     <link th:href="@{/css/declaration.css}" rel="stylesheet">
@@ -13,13 +13,15 @@
 <div class="container text-center mt-5">
     <div class="card shadow-lg p-5 rounded-5 home">
         <h4 class="alert-heading"><i class="fa-solid fa-square-check" style="color: #1f5a12;"></i>
-            Declaration Submitted Successfully!
+            <span th:text="#{confirmation.declaration-submitted}"></span>
             <i class="fa-solid fa-square-check" style="color: #1f5a12;"></i></h4>
         <br>
-        <p class="mb-0 confirmation-text">You will be redirected to the homepage in
-            <strong><span id="countdown">5</span></strong> seconds.</p>
+        <p class="mb-0 confirmation-text">
+            <span th:text="#{home.redirection-message}"></span>
+            <strong><span id="countdown" th:text="#{home.redirection-message-seconds-left}"></span></strong>
+            <span th:text="#{home.redirection-message-seconds}"></span></p>
         <div class="text-center mt-4">
-            <a th:href="@{/}" class="btn btn-outline-primary me-2">Return to Home Now</a>
+            <a th:href="@{/}" class="btn btn-outline-primary me-2" th:text="#{button.return-home}"></a>
         </div>
     </div>
 </div>

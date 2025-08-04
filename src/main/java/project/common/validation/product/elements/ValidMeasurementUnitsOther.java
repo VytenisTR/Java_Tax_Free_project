@@ -10,9 +10,7 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidMeasurementUnitsOther {
-    String message() default "Measurement units can be comprised of both letters " +
-            "and numbers (with special symbols (only / and -) as well as whitespaces) and " +
-            "must be at least 1 character and no more than 50 characters in length!";
+    String message() default "{custom.validator.valid-measurement-units-other}";
 
     Class<?>[] groups() default { };
 
