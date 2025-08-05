@@ -2,11 +2,21 @@ package project.common.validation.implementation.sales_document;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.stereotype.Component;
 import project.common.validation.sales_document.ValidSalesDocument;
 import project.declaration.elements.sales_document.SalesDocumentDto;
+import java.util.Locale;
 
+@Component
+@RequiredArgsConstructor
 public final class SalesDocumentValidator implements ConstraintValidator<ValidSalesDocument,
         SalesDocumentDto> {
+
+    private final MessageSource messageSource;
+
     @Override
     public boolean isValid(final SalesDocumentDto salesDocumentDto,
                            final ConstraintValidatorContext context) {
@@ -26,24 +36,42 @@ public final class SalesDocumentValidator implements ConstraintValidator<ValidSa
 
         boolean salesDocumentValid = true;
 
+        Locale currentLocale = LocaleContextHolder.getLocale();
+
         context.disableDefaultConstraintViolation();
 
         if (!cashRegisterReceiptExists && !invoiceExists) {
-            context.buildConstraintViolationWithTemplate("Either fields for the cash register receipt " +
-                            "or fields for the invoice must be filled in!")
+            String localizedMessage = messageSource.getMessage(
+                    "custom.validator.valid-sales-document-cash-register-invoice-either",
+                    null,
+                    currentLocale
+            );
+
+            context.buildConstraintViolationWithTemplate(localizedMessage)
                     .addConstraintViolation();
             salesDocumentValid = false;
         }
 
         if (cashRegisterReceiptExists && invoiceExists) {
-            context.buildConstraintViolationWithTemplate("Only fields for the cash register receipt " +
-                            "or fields for the invoice may be filled in!")
+            String localizedMessage = messageSource.getMessage(
+                    "custom.validator.valid-sales-document-cash-register-invoice-only",
+                    null,
+                    currentLocale
+            );
+
+            context.buildConstraintViolationWithTemplate(localizedMessage)
                     .addConstraintViolation();
             salesDocumentValid = false;
         }
 
         if ((cashRegisterReceiptExists || invoiceExists) && !salesDateExists) {
-            context.buildConstraintViolationWithTemplate("Sales date must be filled in!")
+            String localizedMessage = messageSource.getMessage(
+                    "custom.validator.valid-sales-document-sales-date",
+                    null,
+                    currentLocale
+            );
+
+            context.buildConstraintViolationWithTemplate(localizedMessage)
                     .addPropertyNode("salesDate")
                     .addConstraintViolation();
             salesDocumentValid = false;

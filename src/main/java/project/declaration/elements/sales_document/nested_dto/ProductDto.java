@@ -15,28 +15,25 @@ import java.math.BigDecimal;
 @Setter
 @ValidProductMeasurementUnits
 public final class ProductDto {
-    @NotBlank(message = "Product description is required.")
+    @NotBlank(message = "{product.product-description-required}")
     @ValidProductDescription
     private String productDescription;
-    @NotNull(message = "Product quantity is required.")
-    @Min(value = 1, message = "Product quantity must be greater than 0!")
+    @NotNull(message = "{product.product-quantity-required}")
+    @Min(value = 1, message = "{product.product-quantity-min}")
     private Integer productQuantity;
     private MeasurementUnits measurementUnits;
     @ValidMeasurementUnitsOther
     private String measurementUnitsOther;
-    @NotNull(message = "Taxable amount is required.")
-    @DecimalMin(value = "0.00", message = "Taxable amount must be a decimal greater or equal to 0!")
-    @Digits(integer = 16, fraction = 2, message = "Taxable amount must be in a correct format - " +
-            "decimal greater or equal to 0, containing 2 digits separated by a comma!")
+    @NotNull(message = "{product.taxable-amount-required}")
+    @DecimalMin(value = "0.00", message = "{product.taxable-amount-min}")
+    @Digits(integer = 16, fraction = 2, message = "{product.taxable-amount-format}")
     private BigDecimal taxableAmount;
-    @NotNull(message = "VAT amount is required.")
-    @DecimalMin(value = "0.00", message = "VAT amount must be a decimal greater or equal to 0!")
-    @Digits(integer = 16, fraction = 2, message = "VAT amount must be in a correct format - " +
-            "decimal greater or equal to 0, containing 2 digits separated by a comma!")
+    @NotNull(message = "{product.vat-amount-required}")
+    @DecimalMin(value = "0.00", message = "{product.vat-amount-min}")
+    @Digits(integer = 16, fraction = 2, message = "{product.vat-amount-format}")
     private BigDecimal vatAmount;
-    @NotNull(message = "Total amount is required.")
-    @DecimalMin(value = "0.01", message = "Total amount must be a decimal greater than 0!")
-    @Digits(integer = 16, fraction = 2, message = "Total amount must be in a correct format - " +
-            "decimal greater than 0, containing 2 digits separated by a comma!")
+    @NotNull(message = "{product.total-amount-required}")
+    @DecimalMin(value = "0.01", message = "{product.total-amount-min}")
+    @Digits(integer = 16, fraction = 2, message = "{product.total-amount-format}")
     private BigDecimal totalAmount;
 }

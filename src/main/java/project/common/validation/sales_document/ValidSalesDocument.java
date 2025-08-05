@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidSalesDocument {
-    String message() default "{custom.validator.valid-sales-document}";
+    String message() default "{custom.validator.valid-sales-document-default}";
 
     Class<?>[] groups() default { };
 

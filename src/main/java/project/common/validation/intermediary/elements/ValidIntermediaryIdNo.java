@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidIntermediaryIdNo {
-    String message() default "{custom.validator.valid-intermediary-id-no}";
+    String message() default "{custom.validator.valid-intermediary-id-no-default}";
 
     Class<?>[] groups() default { };
 

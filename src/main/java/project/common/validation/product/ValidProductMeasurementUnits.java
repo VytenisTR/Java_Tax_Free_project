@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidProductMeasurementUnits {
-    String message() default "{custom.validator.valid-product-measurement-units}";
+    String message() default "{custom.validator.valid-product-measurement-units-default}";
 
     Class<?>[] groups() default { };
 

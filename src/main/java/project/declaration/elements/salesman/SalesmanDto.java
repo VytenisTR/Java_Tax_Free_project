@@ -14,13 +14,13 @@ import project.enums.EUCountries;
 @Setter
 @Builder
 public final class SalesmanDto {
-    @NotBlank(message = "VAT payer code is required.")
+    @NotBlank(message = "{salesman.vat-payer-code-required}")
     @ValidVatPayerCode
     private String vatPayerCode;
-    @NotNull(message = "VAT code issuer is required.")
+    @NotNull(message = "{salesman.vat-code-issuer-required}")
     @ValidVatCodeIssuer
     private EUCountries vatCodeIssuer;
-    @NotBlank(message = "Salesman name is required.")
+    @NotBlank(message = "{salesman.salesman-name-required}")
     @ValidSalesmanName
     private String salesmanName;
 }

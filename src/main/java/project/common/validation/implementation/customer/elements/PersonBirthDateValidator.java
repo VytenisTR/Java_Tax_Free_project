@@ -2,11 +2,21 @@ package project.common.validation.implementation.customer.elements;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.stereotype.Component;
 import project.common.validation.customer.elements.ValidPersonBirthDate;
 import project.core.DeclarationConstants;
 import java.time.LocalDate;
+import java.util.Locale;
 
+@Component
+@RequiredArgsConstructor
 public final class PersonBirthDateValidator implements ConstraintValidator<ValidPersonBirthDate, LocalDate> {
+
+    private final MessageSource messageSource;
+
     @Override
     public boolean isValid(final LocalDate personBirthDate, final ConstraintValidatorContext context) {
         if (personBirthDate == null) {
@@ -18,11 +28,16 @@ public final class PersonBirthDateValidator implements ConstraintValidator<Valid
 
         if (!personBirthDateValid) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(
-                    String.format("Birth date must be between %s and %s!",
-                            DeclarationConstants.getMinBirthDate(),
-                            DeclarationConstants.getMaxBirthDate())
-            ).addConstraintViolation();
+
+            Locale currentLocale = LocaleContextHolder.getLocale();
+            String localizedMessage = messageSource.getMessage(
+                    "custom.validator.valid-person-birthdate",
+                    new Object[]{DeclarationConstants.getMinBirthDate(), DeclarationConstants.getMaxBirthDate()},
+                    currentLocale
+            );
+
+            context.buildConstraintViolationWithTemplate(localizedMessage)
+                    .addConstraintViolation();
         }
 
         return personBirthDateValid;

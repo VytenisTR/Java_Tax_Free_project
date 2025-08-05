@@ -24,11 +24,11 @@ public final class SalesDocumentDto {
     private CashRegisterReceipt cashRegisterReceipt;
     @Valid
     private Invoice invoice;
-    @NotNull(message = "Sales date is required.")
-    @PastOrPresent(message = "Sales date cannot be in the future!")
+    @NotNull(message = "{sales-document.sales-date-required}")
+    @PastOrPresent(message = "{sales-document.sales-date-in-future}")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate salesDate;
-    @Size(min = 1, message = "At least one product is required.")
+    @Size(min = 1, message = "{product.products-size}")
     @Valid
     private List<ProductDto> products;
 }

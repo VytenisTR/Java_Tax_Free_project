@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidResidentialDocumentNo {
-    String message() default "{custom.validator.valid-residential-document-no}";
+    String message() default "{custom.validator.valid-residential-document-no-default}";
 
     Class<?>[] groups() default { };
 

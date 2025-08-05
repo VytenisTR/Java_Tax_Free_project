@@ -2,11 +2,21 @@ package project.common.validation.implementation.customer;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.stereotype.Component;
 import project.common.validation.customer.ValidPersonIdentification;
 import project.declaration.elements.customer.nested_dto.PersonIdentification;
+import java.util.Locale;
 
+@Component
+@RequiredArgsConstructor
 public final class PersonIdentificationValidator implements ConstraintValidator<ValidPersonIdentification,
         PersonIdentification> {
+
+    private final MessageSource messageSource;
+
     @Override
     public boolean isValid(final PersonIdentification personIdentification,
                            final ConstraintValidatorContext context) {
@@ -21,10 +31,16 @@ public final class PersonIdentificationValidator implements ConstraintValidator<
         context.disableDefaultConstraintViolation();
 
         if (personalIdentificationNumberExists && !personalIdentificationNumberIssuerExists) {
-            context.buildConstraintViolationWithTemplate("ID issuer country is required " +
-                            "when personal identification number (ID) is provided!")
-                    .addPropertyNode("idIssuedBy")
+            Locale currentLocale = LocaleContextHolder.getLocale();
+            String localizedMessage = messageSource.getMessage(
+                    "customer.validator.valid-person-identification",
+                    null,
+                    currentLocale
+            );
+
+            context.buildConstraintViolationWithTemplate(localizedMessage)
                     .addConstraintViolation();
+
             return false;
         }
 

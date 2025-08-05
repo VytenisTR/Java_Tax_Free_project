@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidResidentialDocument {
-    String message() default "{custom.validator.valid-residential-document}";
+    String message() default "{custom.validator.valid-residential-document-default}";
 
     Class<?>[] groups() default { };
 

@@ -15,13 +15,13 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public final class Person {
-    @NotBlank(message = "First name is required.")
+    @NotBlank(message = "{person.first-name-required}")
     @ValidPersonFirstName
     private String firstName;
-    @NotBlank(message = "Last name is required.")
+    @NotBlank(message = "{person.last-name-required}")
     @ValidPersonLastName
     private String lastName;
-    @NotNull(message = "Birth date is required.")
+    @NotNull(message = "{person.birthdate-required}")
     @ValidPersonBirthDate
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;

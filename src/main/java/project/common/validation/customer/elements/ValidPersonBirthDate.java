@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidPersonBirthDate {
-    String message() default "{custom.validator.valid-person-birthdate}";
+    String message() default "{custom.validator.valid-person-birthdate-default}";
 
     Class<?>[] groups() default { };
 

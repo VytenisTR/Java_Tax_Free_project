@@ -13,11 +13,11 @@ import project.enums.IdentityDocumentTypes;
 @Getter
 @Setter
 public final class IdentityDocument {
-    @NotNull(message = "Identity document type is required.")
+    @NotNull(message = "{identity-document.identity-document-type-required}")
     private IdentityDocumentTypes identityDocumentType;
-    @NotBlank(message = "Identity document number is required.")
+    @NotBlank(message = "{identity-document.identity-document-no-required}")
     @ValidIdentityDocumentNo
     private String identityDocumentNo;
-    @NotNull(message = "Identity document issuer is required.")
+    @NotNull(message = "{identity-document.identity-document-issued-by-required}")
     private AllCountries documentIssuedBy;
 }
