@@ -21,6 +21,7 @@ public final class HttpEndpoint {
     public static final String DECLARATION_DELETE = "/delete-declaration/{declarationUUID}";
     public static final String CONFIRMATION = "/confirmation";
     public static final String CONFIRMATION_VIEW = "confirmation";
+    public static final String NO_CONFIRMATION = "/error/no-confirmation";
     public static final String LOGIN = "/login";
     public static final String LOGIN_VIEW = "login";
     public static final String LOGOUT = "/logout";

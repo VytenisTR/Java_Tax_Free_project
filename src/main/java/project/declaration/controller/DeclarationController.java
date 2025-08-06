@@ -2,6 +2,7 @@ package project.declaration.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -71,13 +72,22 @@ public class DeclarationController {
     }
 
     @GetMapping(HttpEndpoint.CONFIRMATION)
-    public String confirmationPage() {
+    public String confirmationPage(HttpSession session) {
+        if (session.getAttribute("currentStep") != null) {
+            return HttpEndpoint.NO_CONFIRMATION;
+        }
+
+        session.removeAttribute("currentStep");
+
         return HttpEndpoint.CONFIRMATION_VIEW;
     }
 
     @GetMapping(HttpEndpoint.SALESMAN)
     @PreAuthorize("hasRole('ADMIN')")
-    public String getSalesmanDetails(@ModelAttribute("declarationDto") DeclarationDto declarationDto) {
+    public String getSalesmanDetails(@ModelAttribute("declarationDto") DeclarationDto declarationDto,
+                                     HttpSession session) {
+        session.setAttribute("currentStep", DeclarationWizardSteps.SALESMAN);
+
         declarationDto.getSalesmanDto().setVatCodeIssuer(EUCountries.LT); //Prefilled field
 
         return HttpEndpoint.SALESMAN_VIEW;
@@ -86,19 +96,24 @@ public class DeclarationController {
     @PostMapping(HttpEndpoint.SALESMAN_SUBMIT)
     @PreAuthorize("hasRole('ADMIN')")
     public String submitSalesmanDetails(@ModelAttribute("declarationDto") @Valid DeclarationDto declarationDto,
-                                        BindingResult formErrors) {
+                                        BindingResult formErrors, HttpSession session) {
         if (formErrors.hasErrors()) {
             declarationDto.getSalesmanDto().setVatCodeIssuer(EUCountries.LT); //Prefilled field for re-rendering
             return HttpEndpoint.SALESMAN_VIEW;
         }
 
+        session.setAttribute("currentStep", DeclarationWizardSteps.SALESMAN);
         return "redirect:" + HttpEndpoint.CUSTOMER;
     }
 
     @GetMapping(HttpEndpoint.CUSTOMER)
     @PreAuthorize("hasRole('ADMIN')")
     public String getCustomerDetails(@ModelAttribute("declarationDto") DeclarationDto declarationDto,
-                                     Model model) {
+                                     Model model, HttpSession session) {
+        if (!DeclarationWizardSteps.SALESMAN.equals(session.getAttribute("currentStep"))) {
+            return "redirect:" + HttpEndpoint.SALESMAN;
+        }
+
         passEnumValuesCustomer(model);
 
         return HttpEndpoint.CUSTOMER_VIEW;
@@ -107,19 +122,24 @@ public class DeclarationController {
     @PostMapping(HttpEndpoint.CUSTOMER_SUBMIT)
     @PreAuthorize("hasRole('ADMIN')")
     public String submitCustomerDetails(@ModelAttribute("declarationDto") @Valid DeclarationDto declarationDto,
-                                        BindingResult formErrors, Model model) {
+                                        BindingResult formErrors, Model model, HttpSession session) {
         if (formErrors.hasErrors()) {
             passEnumValuesCustomer(model);
             return HttpEndpoint.CUSTOMER_VIEW;
         }
 
+        session.setAttribute("currentStep", DeclarationWizardSteps.CUSTOMER);
         return "redirect:" + HttpEndpoint.SALES_DOCUMENT;
     }
 
     @GetMapping(HttpEndpoint.SALES_DOCUMENT)
     @PreAuthorize("hasRole('ADMIN')")
     public String getSalesDocumentDetails(@ModelAttribute("declarationDto") DeclarationDto declarationDto,
-                                          Model model) {
+                                          Model model, HttpSession session) {
+        if (!DeclarationWizardSteps.CUSTOMER.equals(session.getAttribute("currentStep"))) {
+            return "redirect:" + HttpEndpoint.CUSTOMER;
+        }
+
         passEnumValuesSalesDocument(model);
 
         return HttpEndpoint.SALES_DOCUMENT_VIEW;
@@ -128,31 +148,43 @@ public class DeclarationController {
     @PostMapping(HttpEndpoint.SALES_DOCUMENT_SUBMIT)
     @PreAuthorize("hasRole('ADMIN')")
     public String submitSalesDocumentDetails(@ModelAttribute("declarationDto") @Valid DeclarationDto declarationDto,
-                                             BindingResult formErrors, Model model) {
+                                             BindingResult formErrors, Model model, HttpSession session) {
         if (formErrors.hasErrors()) {
             passEnumValuesSalesDocument(model);
             return HttpEndpoint.SALES_DOCUMENT_VIEW;
         }
 
+        session.setAttribute("currentStep", DeclarationWizardSteps.SALES_DOCUMENT);
         return "redirect:" + HttpEndpoint.INTERMEDIARY;
     }
 
     @GetMapping(HttpEndpoint.INTERMEDIARY)
     @PreAuthorize("hasRole('ADMIN')")
-    public String getIntermediaryDetails(@ModelAttribute("declarationDto") DeclarationDto declarationDto) {
+    public String getIntermediaryDetails(@ModelAttribute("declarationDto") DeclarationDto declarationDto,
+                                         HttpSession session) {
+        if (!DeclarationWizardSteps.SALES_DOCUMENT.equals(session.getAttribute("currentStep"))) {
+            return "redirect:" + HttpEndpoint.SALES_DOCUMENT;
+        }
+
+        session.setAttribute("currentStep", DeclarationWizardSteps.INTERMEDIARY);
+
         return HttpEndpoint.INTERMEDIARY_VIEW;
     }
 
     @PostMapping(HttpEndpoint.INTERMEDIARY_SUBMIT)
     @PreAuthorize("hasRole('ADMIN')")
     public String submitIntermediaryDetails(@ModelAttribute("declarationDto") @Valid DeclarationDto declarationDto,
-                                            BindingResult formErrors, SessionStatus status) throws JsonProcessingException {
+                                            BindingResult formErrors, SessionStatus status, HttpSession session)
+            throws JsonProcessingException {
         if (formErrors.hasErrors()) {
             return HttpEndpoint.INTERMEDIARY_VIEW;
         }
 
         declarationService.saveFromDeclarationDto(declarationDto);
+
+        session.removeAttribute("currentStep");
         status.setComplete(); //Clears the session
+
         log.debug("Declaration JSON: {}", new ObjectMapper().writeValueAsString(declarationDto));
         //Logs the final declaration for debugging
 
