@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS products (
                                 product_quantity INT NOT NULL,
                                 measurement_units VARCHAR(3),
                                 measurement_units_other VARCHAR(50),
+                                vat_rate NUMERIC(1, 2) NOT NULL,
                                 taxable_amount NUMERIC(16, 2) NOT NULL,
                                 vat_amount NUMERIC(16, 2) NOT NULL,
                                 total_amount NUMERIC(16, 2) NOT NULL

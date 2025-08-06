@@ -1,5 +1,6 @@
 package project.core;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public final class DeclarationConstants {
@@ -9,7 +10,7 @@ public final class DeclarationConstants {
             LocalDate.parse(DateFormatter.getFormattedDate(LocalDate.now().minusYears(18)));
     private static final LocalDate MAX_SALES_DATE =
             LocalDate.parse(DateFormatter.getFormattedDate(LocalDate.now()));
-    private static final Double VAT_RATE = 0.21;
+    private static final BigDecimal VAT_RATE = BigDecimal.valueOf(0.21);
 
     public static LocalDate getMinBirthDate() {
         return MIN_BIRTH_DATE;
@@ -21,5 +22,9 @@ public final class DeclarationConstants {
 
     public static LocalDate getMaxSalesDate() {
         return MAX_SALES_DATE;
+    }
+
+    public static BigDecimal getVatRate() {
+        return VAT_RATE;
     }
 }

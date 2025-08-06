@@ -1,6 +1,7 @@
 package project.declaration.mapper;
 
 import org.springframework.stereotype.Component;
+import project.core.DeclarationConstants;
 import project.declaration.dto.DeclarationDto;
 import project.declaration.elements.customer.CustomerDto;
 import project.declaration.elements.sales_document.SalesDocumentDto;
@@ -52,6 +53,7 @@ public class DeclarationDtoMapper {
                     .productQuantity(product.getProductQuantity())
                     .measurementUnits(product.getMeasurementUnits())
                     .measurementUnitsOther(product.getMeasurementUnitsOther())
+                    .vatRate(DeclarationConstants.getVatRate())
                     .taxableAmount(product.getTaxableAmount())
                     .vatAmount(product.getVatAmount())
                     .totalAmount(product.getTotalAmount())

@@ -30,6 +30,9 @@ public class ProductEntity {
     @Column(name = "measurement_units_other")
     private String measurementUnitsOther;
 
+    @Column(name = "vat_rate", nullable = false, precision = 3, scale = 2)
+    private BigDecimal vatRate;
+
     @Column(name = "taxable_amount", nullable = false, precision = 18, scale = 2)
     private BigDecimal taxableAmount;
 
