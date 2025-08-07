@@ -11,7 +11,7 @@
 <body class="bg-light d-flex justify-content-center align-items-center vh-100 green-gradient">
 <div class="card shadow p-4 login">
     <h3 class="text-center mb-4" th:text="#{login.header}"></h3>
-    <form th:action="@{/login}" method="post">
+    <form th:action="@{/login/page}" method="post">
         <div th:if="${param.error}" class="alert alert-danger" role="alert" th:text="#{login.invalid-message}">
         </div>
         <div th:if="${param.logout}" class="alert alert-success" role="alert" th:text="#{login.loggedout-message}">
@@ -28,7 +28,7 @@
             <button type="submit" class="btn btn-primary login-button" th:text="#{login.button}"></button>
         </div>
     </form>
-    <form th:action="@{/login}" method="get" class="mt-4">
+    <form th:action="@{/login/page}" method="get" class="mt-4">
         <div class="mb-3">
             <label for="language-select" class="form-label login-text" th:text="#{login.language}"></label>
             <select id="language-select" name="lang"

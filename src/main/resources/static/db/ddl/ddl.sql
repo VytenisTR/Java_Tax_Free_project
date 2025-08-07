@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS declarations (
-                              declaration_uuid UUID PRIMARY KEY,
+                              id BIGSERIAL PRIMARY KEY,
+                              declaration_uuid UUID UNIQUE NOT NULL,
                               declaration_date DATE NOT NULL,
                               declaration_version BIGINT NOT NULL,
                               salesman_id BIGINT,
@@ -11,7 +12,7 @@ CREATE TABLE IF NOT EXISTS declarations (
 CREATE TABLE IF NOT EXISTS salesman (
                           id BIGSERIAL PRIMARY KEY,
                           vat_payer_code VARCHAR(14) NOT NULL,
-                          vat_code_issuer VARCHAR(2) NOT NULL,
+                          vat_code_issuer VARCHAR(4) NOT NULL,
                           salesman_name VARCHAR(300) NOT NULL
 );
 
@@ -21,15 +22,15 @@ CREATE TABLE IF NOT EXISTS customer (
                            last_name VARCHAR(200) NOT NULL,
                            birthdate DATE NOT NULL,
                            personal_id_number VARCHAR(50),
-                           id_issued_by VARCHAR(2),
+                           id_issued_by VARCHAR(4),
                            identity_document_type VARCHAR(15) NOT NULL,
                            identity_document_no VARCHAR(50) NOT NULL,
-                           document_issued_by VARCHAR(2) NOT NULL,
+                           document_issued_by VARCHAR(4) NOT NULL,
                            residential_document_type VARCHAR(15),
                            residential_document_no VARCHAR(50),
-                           residential_document_issued_by VARCHAR(2),
-                           residential_country VARCHAR(2),
-                           residential_eu_territory VARCHAR(2)
+                           residential_document_issued_by VARCHAR(4),
+                           residential_country VARCHAR(4),
+                           residential_eu_territory VARCHAR(4)
 );
 
 CREATE TABLE IF NOT EXISTS sales_document (
@@ -45,12 +46,12 @@ CREATE TABLE IF NOT EXISTS products (
                                 sales_document_id BIGINT REFERENCES sales_document(id),
                                 product_description VARCHAR(500) NOT NULL,
                                 product_quantity INT NOT NULL,
-                                measurement_units VARCHAR(3),
+                                measurement_units VARCHAR(4),
                                 measurement_units_other VARCHAR(50),
-                                vat_rate NUMERIC(1, 2) NOT NULL,
-                                taxable_amount NUMERIC(16, 2) NOT NULL,
-                                vat_amount NUMERIC(16, 2) NOT NULL,
-                                total_amount NUMERIC(16, 2) NOT NULL
+                                vat_rate NUMERIC(4, 2) NOT NULL,
+                                taxable_amount NUMERIC(18, 2) NOT NULL,
+                                vat_amount NUMERIC(18, 2) NOT NULL,
+                                total_amount NUMERIC(18, 2) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS intermediary (
@@ -61,7 +62,7 @@ CREATE TABLE IF NOT EXISTS intermediary (
 );
 
 CREATE TABLE IF NOT EXISTS all_countries (
-                               code VARCHAR(2) PRIMARY KEY,
+                               code VARCHAR(4) PRIMARY KEY,
                                name_en VARCHAR(100) NOT NULL,
                                name_lt VARCHAR(100) NOT NULL,
                                is_it_EU BOOLEAN NOT NULL,
@@ -105,11 +106,11 @@ CREATE TABLE IF NOT EXISTS users_roles (
 );
 
 --FOREIGN KEY CONSTRAINTS
-ALTER TABLE declarationse DROP CONSTRAINT IF EXISTS fk_salesman;
-ALTER TABLE declarationse ADD CONSTRAINT fk_salesman FOREIGN KEY (salesman_id) REFERENCES salesman(id);
-ALTER TABLE declarationse DROP CONSTRAINT IF EXISTS fk_customer;
-ALTER TABLE declarationse ADD CONSTRAINT fk_customer FOREIGN KEY (customer_id) REFERENCES customer(id);
-ALTER TABLE declarationse DROP CONSTRAINT IF EXISTS fk_sales_document;
-ALTER TABLE declarationse ADD CONSTRAINT fk_sales_document FOREIGN KEY (sales_document_id) REFERENCES sales_document(id);
-ALTER TABLE declarationse DROP CONSTRAINT IF EXISTS fk_intermediary;
-ALTER TABLE declarationse ADD CONSTRAINT fk_intermediary FOREIGN KEY (intermediary_id) REFERENCES intermediary(id);
+ALTER TABLE declarations DROP CONSTRAINT IF EXISTS fk_salesman;
+ALTER TABLE declarations ADD CONSTRAINT fk_salesman FOREIGN KEY (salesman_id) REFERENCES salesman(id);
+ALTER TABLE declarations DROP CONSTRAINT IF EXISTS fk_customer;
+ALTER TABLE declarations ADD CONSTRAINT fk_customer FOREIGN KEY (customer_id) REFERENCES customer(id);
+ALTER TABLE declarations DROP CONSTRAINT IF EXISTS fk_sales_document;
+ALTER TABLE declarations ADD CONSTRAINT fk_sales_document FOREIGN KEY (sales_document_id) REFERENCES sales_document(id);
+ALTER TABLE declarations DROP CONSTRAINT IF EXISTS fk_intermediary;
+ALTER TABLE declarations ADD CONSTRAINT fk_intermediary FOREIGN KEY (intermediary_id) REFERENCES intermediary(id);

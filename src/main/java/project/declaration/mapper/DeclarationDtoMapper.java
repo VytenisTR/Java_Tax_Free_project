@@ -3,21 +3,20 @@ package project.declaration.mapper;
 import org.springframework.stereotype.Component;
 import project.core.DeclarationConstants;
 import project.declaration.dto.DeclarationDto;
-import project.declaration.elements.customer.CustomerDto;
-import project.declaration.elements.sales_document.SalesDocumentDto;
-import project.declaration.elements.salesman.SalesmanDto;
-import project.declaration.elements.intermediary.IntermediaryDto;
+import project.declaration.elements_dto.customer.CustomerDto;
+import project.declaration.elements_dto.sales_document.SalesDocumentDto;
+import project.declaration.elements_dto.salesman.SalesmanDto;
+import project.declaration.elements_dto.intermediary.IntermediaryDto;
 import project.declaration.model.DeclarationEntity;
-import project.declaration.model.elements.customer.CustomerEntity;
-import project.declaration.model.elements.intermediary.IntermediaryEntity;
-import project.declaration.model.elements.sales_document.ProductEntity;
-import project.declaration.model.elements.sales_document.SalesDocumentEntity;
-import project.declaration.model.elements.salesman.SalesmanEntity;
+import project.declaration.model.elements_model.customer.CustomerEntity;
+import project.declaration.model.elements_model.intermediary.IntermediaryEntity;
+import project.declaration.model.elements_model.sales_document.ProductEntity;
+import project.declaration.model.elements_model.sales_document.SalesDocumentEntity;
+import project.declaration.model.elements_model.salesman.SalesmanEntity;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -72,7 +71,7 @@ public class DeclarationDtoMapper {
                 .build();
 
         DeclarationEntity declarationEntity = DeclarationEntity.builder()
-                .declarationUUID(UUID.randomUUID())
+                .declarationUUID(declarationDto.getDeclarationUUID())
                 .declarationDate(LocalDate.parse(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))))
                 .declarationVersion(1)
                 .salesman(salesmanEntity)

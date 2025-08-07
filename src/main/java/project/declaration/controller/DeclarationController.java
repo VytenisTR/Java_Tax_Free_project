@@ -1,12 +1,9 @@
 package project.declaration.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,22 +14,21 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.HttpEndpoint;
-import project.declaration.elements.customer.CustomerDto;
-import project.declaration.elements.customer.nested_dto.IdentityDocument;
-import project.declaration.elements.customer.nested_dto.Person;
-import project.declaration.elements.customer.nested_dto.PersonIdentification;
-import project.declaration.elements.customer.nested_dto.ResidentialDocument;
+import project.declaration.elements_dto.customer.CustomerDto;
+import project.declaration.elements_dto.customer.nested_dto.IdentityDocument;
+import project.declaration.elements_dto.customer.nested_dto.Person;
+import project.declaration.elements_dto.customer.nested_dto.PersonIdentification;
+import project.declaration.elements_dto.customer.nested_dto.ResidentialDocument;
 import project.declaration.dto.DeclarationDto;
-import project.declaration.elements.intermediary.IntermediaryDto;
-import project.declaration.elements.sales_document.SalesDocumentDto;
-import project.declaration.elements.sales_document.nested_dto.CashRegisterReceipt;
-import project.declaration.elements.sales_document.nested_dto.Invoice;
-import project.declaration.elements.sales_document.nested_dto.ProductDto;
-import project.declaration.elements.salesman.SalesmanDto;
+import project.declaration.elements_dto.intermediary.IntermediaryDto;
+import project.declaration.elements_dto.sales_document.SalesDocumentDto;
+import project.declaration.elements_dto.sales_document.nested_dto.CashRegisterReceipt;
+import project.declaration.elements_dto.sales_document.nested_dto.Invoice;
+import project.declaration.elements_dto.sales_document.nested_dto.ProductDto;
+import project.declaration.elements_dto.salesman.SalesmanDto;
 import project.declaration.model.DeclarationEntity;
 import project.declaration.service.DeclarationService;
 import project.enums.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,25 +38,23 @@ import java.util.UUID;
 public class DeclarationController {
 
     private final DeclarationService declarationService;
-    private static final Logger log = LoggerFactory.getLogger(DeclarationController.class);
 
+    //Initializes the declaration multistep wizard with the empty DeclarationDto
     @ModelAttribute("declarationDto")
     public DeclarationDto initializeDeclarationDto() {
-        List<ProductDto> initialProducts = new ArrayList<>();
-        initialProducts.add(new ProductDto());
-
         return DeclarationDto.builder()
+                .declarationUUID(UUID.randomUUID())
                 .salesmanDto(SalesmanDto.builder().build())
                 .customerDto(CustomerDto.builder()
-                        .person(new Person())
-                        .personIdentification(new PersonIdentification())
-                        .identityDocument(new IdentityDocument())
-                        .residentialDocument(new ResidentialDocument())
+                        .person(Person.builder().build())
+                        .personIdentification(PersonIdentification.builder().build())
+                        .identityDocument(IdentityDocument.builder().build())
+                        .residentialDocument(ResidentialDocument.builder().build())
                         .build())
                 .salesDocumentDto(SalesDocumentDto.builder()
-                        .cashRegisterReceipt(new CashRegisterReceipt())
-                        .invoice(new Invoice())
-                        .products(initialProducts)
+                        .cashRegisterReceipt(CashRegisterReceipt.builder().build())
+                        .invoice(Invoice.builder().build())
+                        .products(List.of(ProductDto.builder().build()))
                         .build())
                 .intermediaryDto(IntermediaryDto.builder().build())
                 .build();
@@ -72,6 +66,7 @@ public class DeclarationController {
     }
 
     @GetMapping(HttpEndpoint.CONFIRMATION)
+    @PreAuthorize("hasRole('ADMIN')")
     public String confirmationPage(HttpSession session) {
         if (session.getAttribute("currentStep") != null) {
             return HttpEndpoint.NO_CONFIRMATION;
@@ -184,9 +179,6 @@ public class DeclarationController {
 
         session.removeAttribute("currentStep");
         status.setComplete(); //Clears the session
-
-        log.debug("Declaration JSON: {}", new ObjectMapper().writeValueAsString(declarationDto));
-        //Logs the final declaration for debugging
 
         return "redirect:" + HttpEndpoint.CONFIRMATION;
     }

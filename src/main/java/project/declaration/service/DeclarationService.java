@@ -1,5 +1,6 @@
 package project.declaration.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,12 +18,13 @@ public class DeclarationService {
     private final DeclarationRepository declarationRepository;
     private final DeclarationDtoMapper declarationDtoMapper;
 
+    @Transactional
     public void saveFromDeclarationDto(DeclarationDto declarationDto) {
-        DeclarationEntity declarationEntity = declarationDtoMapper.mapDtoToEntity(declarationDto);
-
-        while (declarationRepository.existsByDeclarationUUID(declarationEntity.getDeclarationUUID())) {
-            declarationEntity.setDeclarationUUID(UUID.randomUUID());
+        if (declarationDto.getDeclarationUUID() == null) {
+            declarationDto.setDeclarationUUID(UUID.randomUUID());
         }
+
+        DeclarationEntity declarationEntity = declarationDtoMapper.mapDtoToEntity(declarationDto);
 
         declarationRepository.save(declarationEntity);
     }
@@ -31,6 +33,7 @@ public class DeclarationService {
         return declarationRepository.findAll(pageable);
     }
 
+    @Transactional
     public void deleteByDeclarationUUID(UUID declarationUUID) {
         declarationRepository.deleteByDeclarationUUID(declarationUUID);
     }

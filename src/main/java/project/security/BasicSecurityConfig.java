@@ -30,7 +30,7 @@ public class BasicSecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/submit/**").hasRole("ADMIN")
-                        .requestMatchers("/details/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/details/**", "/list/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpEndpoint.LOGIN, HttpEndpoint.LOGOUT,
                                 "/css/**", "/js/**").permitAll()
                         .anyRequest().authenticated()
@@ -54,11 +54,8 @@ public class BasicSecurityConfig {
                         .logoutSuccessHandler((request, response,
                                                authentication) -> {
                             String sessionLanguage = (String) request.getAttribute("lang");
-                            response.sendRedirect("/login?logout&lang=" + sessionLanguage);
+                            response.sendRedirect("/login/page?logout&lang=" + sessionLanguage);
                         })
-                )
-                .exceptionHandling(exception -> exception
-                        .accessDeniedPage(HttpEndpoint.ACCESS_DENIED)
                 );
 
         return http.build();

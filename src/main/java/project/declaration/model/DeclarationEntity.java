@@ -2,10 +2,10 @@ package project.declaration.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import project.declaration.model.elements.customer.CustomerEntity;
-import project.declaration.model.elements.intermediary.IntermediaryEntity;
-import project.declaration.model.elements.sales_document.SalesDocumentEntity;
-import project.declaration.model.elements.salesman.SalesmanEntity;
+import project.declaration.model.elements_model.customer.CustomerEntity;
+import project.declaration.model.elements_model.intermediary.IntermediaryEntity;
+import project.declaration.model.elements_model.sales_document.SalesDocumentEntity;
+import project.declaration.model.elements_model.salesman.SalesmanEntity;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -18,7 +18,9 @@ import java.util.UUID;
 @Table(name = "declarations")
 public class DeclarationEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(name = "declaration_uuid", updatable = false, nullable = false)
     private UUID declarationUUID;
 
