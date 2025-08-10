@@ -28,7 +28,7 @@
         <div class="d-grid gap-3 col-6 mx-auto">
             <a sec:authorize="hasRole('ADMIN')" th:href="@{/salesman/details}"
                class="btn btn-primary btn-lg home-buttons" th:text="#{button.submit-declaration}"></a>
-            <a th:href="@{/declarations}" class="btn btn-success btn-lg home-buttons"
+            <a th:href="@{/declarations/list}" class="btn btn-success btn-lg home-buttons"
                th:text="#{button.view-declarations}"></a>
         </div>
     </div>

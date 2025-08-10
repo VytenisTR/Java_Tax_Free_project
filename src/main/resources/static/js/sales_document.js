@@ -24,15 +24,18 @@ function toggleRadioButtonsFieldsGroup() {
             invoiceNoField.querySelector("#invoice-no")
                 .removeAttribute("required");
             invoiceNoFieldLabel.textContent = invoiceNoFieldLabel.dataset.labelOption1;
+            invoiceNoField.querySelector("#invoice-no").value="";
         } else if (invoiceRadioButton.checked) {
             cashRegisterNoField.classList.add("hidden");
             cashRegisterNoField.querySelector("#cash-register-no")
                 .removeAttribute("required");
             cashRegisterNoFieldLabel.textContent = cashRegisterNoFieldLabel.dataset.labelOption1;
+            cashRegisterNoField.querySelector("#cash-register-no").value="";
             cashReceiptNoField.classList.add("hidden");
             cashReceiptNoField.querySelector("#cash-receipt-no")
                 .removeAttribute("required");
             cashReceiptNoFieldLabel.textContent = cashReceiptNoFieldLabel.dataset.labelOption1;
+            cashReceiptNoField.querySelector("#cash-receipt-no").value="";
 
             invoiceNoField.classList.remove("hidden");
             invoiceNoField.querySelector("#invoice-no")
@@ -134,6 +137,8 @@ function toggleMeasurementUnitFieldsGroup(productFieldsGroup, productGroupIndex)
         .addEventListener("input", toggleMeasurementUnitFields);
     measurementUnitsOtherGroup.querySelector(".measurement-units-other-input")
         .addEventListener("input", toggleMeasurementUnitFields);
+
+    toggleMeasurementUnitFields();
 }
 
 function calculateTaxableAndVatAmountFields(productFieldsGroup, productGroupIndex) {
@@ -213,12 +218,9 @@ function addProductFieldsGroup() {
 
     goodsContainer.appendChild(productFieldsGroupClone);
 
-    reindexProductFieldsGroups();
+    disableMeasurementUnitsPlaceholder(productFieldsGroupClone);
 
-    $(productFieldsGroupClone).find('.searchable-select').select2({
-        allowClear: true,
-        width: "100%"
-    });
+    reindexProductFieldsGroups();
 }
 
 function removeProductFieldsGroup(button) {
@@ -270,15 +272,22 @@ function reindexProductFieldsGroups() {
     });
 }
 
+function disableMeasurementUnitsPlaceholder(productFieldsGroup) {
+    const measurementUnitsPlaceholder =
+        productFieldsGroup.querySelector("#measurement-units-select");
+
+    if (measurementUnitsPlaceholder) {
+        measurementUnitsPlaceholder.disabled = true;
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     const firstProductGroup = document.querySelector(".product-fields");
-    const measurementUnitsField =
-        firstProductGroup.querySelector(`[id="measurement-units-field-0"]`);
 
     toggleRadioButtonsFieldsGroup();
 
     if (firstProductGroup) {
-        measurementUnitsField.querySelector(".measurement-units-input").value = "";
+        disableMeasurementUnitsPlaceholder(firstProductGroup);
         toggleMeasurementUnitFieldsGroup(firstProductGroup, 0);
         calculateTaxableAndVatAmountFields(firstProductGroup, 0);
         toggleHideShowFieldsButtons(firstProductGroup, 0);

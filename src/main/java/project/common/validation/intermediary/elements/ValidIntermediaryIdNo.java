@@ -2,7 +2,7 @@ package project.common.validation.intermediary.elements;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import project.common.validation.implementation.intermediary.elements.IntermediaryIdNoValidator;
+import project.common.validation.implementation.intermediary.nested_intermediary.IntermediaryIdNoValidator;
 import java.lang.annotation.*;
 
 @Documented

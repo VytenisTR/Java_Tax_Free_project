@@ -2,8 +2,8 @@ package project.declaration.model.elements_model.sales_document;
 
 import jakarta.persistence.*;
 import lombok.*;
-import project.declaration.elements_dto.sales_document.nested_dto.CashRegisterReceipt;
-import project.declaration.elements_dto.sales_document.nested_dto.Invoice;
+import project.declaration.nested_dto.sales_document.sales_document_dto.CashRegisterReceipt;
+import project.declaration.nested_dto.sales_document.sales_document_dto.Invoice;
 import project.declaration.model.DeclarationEntity;
 import java.time.LocalDate;
 import java.util.List;

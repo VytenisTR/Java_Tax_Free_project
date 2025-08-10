@@ -7,7 +7,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 import project.common.validation.product.ValidProductMeasurementUnits;
-import project.declaration.elements_dto.sales_document.nested_dto.ProductDto;
+import project.declaration.nested_dto.sales_document.sales_document_dto.ProductDto;
 import java.util.Locale;
 
 @Component

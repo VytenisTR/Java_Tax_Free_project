@@ -2,7 +2,7 @@ package project.common.validation.customer.elements;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import project.common.validation.implementation.customer.elements.PersonLastNameValidator;
+import project.common.validation.implementation.customer.nested_customer.PersonLastNameValidator;
 import java.lang.annotation.*;
 
 @Documented

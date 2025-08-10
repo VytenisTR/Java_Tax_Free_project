@@ -2,7 +2,7 @@ package project.common.validation.sales_document.elements;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import project.common.validation.implementation.sales_document.elements.InvoiceNoValidator;
+import project.common.validation.implementation.sales_document.nested_sales_document.InvoiceNoValidator;
 import java.lang.annotation.*;
 
 @Documented

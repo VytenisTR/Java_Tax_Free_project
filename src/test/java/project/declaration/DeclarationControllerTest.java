@@ -16,17 +16,17 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import project.HttpEndpoint;
 import project.declaration.dto.DeclarationDto;
-import project.declaration.elements_dto.customer.CustomerDto;
-import project.declaration.elements_dto.customer.nested_dto.IdentityDocument;
-import project.declaration.elements_dto.customer.nested_dto.Person;
-import project.declaration.elements_dto.customer.nested_dto.PersonIdentification;
-import project.declaration.elements_dto.customer.nested_dto.ResidentialDocument;
-import project.declaration.elements_dto.intermediary.IntermediaryDto;
-import project.declaration.elements_dto.sales_document.SalesDocumentDto;
-import project.declaration.elements_dto.sales_document.nested_dto.CashRegisterReceipt;
-import project.declaration.elements_dto.sales_document.nested_dto.Invoice;
-import project.declaration.elements_dto.sales_document.nested_dto.ProductDto;
-import project.declaration.elements_dto.salesman.SalesmanDto;
+import project.declaration.nested_dto.customer.CustomerDto;
+import project.declaration.nested_dto.customer.customer_dto.IdentityDocument;
+import project.declaration.nested_dto.customer.customer_dto.Person;
+import project.declaration.nested_dto.customer.customer_dto.PersonIdentification;
+import project.declaration.nested_dto.customer.customer_dto.ResidentialDocument;
+import project.declaration.nested_dto.intermediary.IntermediaryDto;
+import project.declaration.nested_dto.sales_document.SalesDocumentDto;
+import project.declaration.nested_dto.sales_document.sales_document_dto.CashRegisterReceipt;
+import project.declaration.nested_dto.sales_document.sales_document_dto.Invoice;
+import project.declaration.nested_dto.sales_document.sales_document_dto.ProductDto;
+import project.declaration.nested_dto.salesman.SalesmanDto;
 import project.declaration.model.DeclarationEntity;
 import project.declaration.service.DeclarationService;
 import project.enums.AllCountries;
@@ -35,9 +35,9 @@ import project.enums.EUCountries;
 import project.enums.IdentityDocumentTypes;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -230,7 +230,7 @@ class DeclarationControllerTest {
                                 .invoiceNo("PR96VB5")
                                 .build())
                         .salesDate(LocalDate.of(2025, 8, 5))
-                        .products(List.of(ProductDto.builder()
+                        .products(new ArrayList<>(List.of(ProductDto.builder()
                                 .productDescription("Description")
                                 .productQuantity(1)
                                 .measurementUnits(null)
@@ -238,7 +238,7 @@ class DeclarationControllerTest {
                                 .taxableAmount(BigDecimal.valueOf(3.95))
                                 .vatAmount(BigDecimal.valueOf(1.05))
                                 .totalAmount(BigDecimal.valueOf(5))
-                                .build()))
+                                .build())))
                         .build())
                 .intermediaryDto(IntermediaryDto.builder()
                         .noIntermediaryUsed(true)

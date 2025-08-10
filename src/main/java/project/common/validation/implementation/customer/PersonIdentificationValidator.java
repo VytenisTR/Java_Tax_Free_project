@@ -7,7 +7,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 import project.common.validation.customer.ValidPersonIdentification;
-import project.declaration.elements_dto.customer.nested_dto.PersonIdentification;
+import project.declaration.nested_dto.customer.customer_dto.PersonIdentification;
 import java.util.Locale;
 
 @Component

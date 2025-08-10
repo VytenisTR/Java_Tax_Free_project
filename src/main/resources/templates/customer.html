@@ -4,16 +4,12 @@
     <meta charset="UTF-8">
     <title th:text="#{customer.title}"></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
     <link th:href="@{/css/declaration.css}" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/lt.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script th:src="@{/js/bootstrap.js}"></script>
-    <script th:src="@{/js/searchable_select.js}"></script>
     <script th:src="@{/js/date_picker_lt.js}"></script>
     <script th:src="@{/js/customer.js}"></script>
 </head>
@@ -78,8 +74,9 @@
                     th:text="#{customer.personal-id-number-issued-by}"></label>
                 <select id="personal-id-number-issued-by"
                     th:field="*{customerDto.personIdentification.idIssuedBy}"
-                    class="form-control input-field-disabled searchable-select" readonly>
-                        <option value="" disabled th:text="#{customer.country-select}"></option>
+                    class="form-control input-field-disabled" readonly>
+                        <option value="" id="personal-id-number-issued-by-country-select"
+                                th:text="#{customer.country-select}"></option>
                         <option th:each="country : ${allCountries}"
                                 th:value="${country}"
                                 th:text="${#locale.language == 'en' ? country.getLongEN() : country.getLongLT()}">
@@ -95,8 +92,9 @@
                     th:text="#{customer.identity-document-type}"></label>
                 <select id="identity-document-type"
                     th:field="*{customerDto.identityDocument.identityDocumentType}"
-                    class="form-control input-field searchable-select" required>
-                        <option value="" disabled th:text="#{customer.document-type-select}"></option>
+                    class="form-control input-field" required>
+                        <option value="" id="identity-document-type-select"
+                                th:text="#{customer.document-type-select}"></option>
                         <option th:each="document : ${identityDocumentTypes}"
                                 th:value="${document}"
                                 th:text="${#locale.language == 'en' ? document.getLongEN() : document.getLongLT()}">
@@ -123,8 +121,9 @@
                     th:text="#{customer.identity-document-issued-by}"></label>
                 <select id="identity-document-issued-by"
                     th:field="*{customerDto.identityDocument.documentIssuedBy}"
-                    class="form-control input-field searchable-select" required>
-                        <option value="" disabled th:text="#{customer.country-select}"></option>
+                    class="form-control input-field" required>
+                        <option value="" id="identity-document-issued-by-country-select"
+                                th:text="#{customer.country-select}"></option>
                         <option th:each="country : ${allCountries}"
                                 th:value="${country}"
                                 th:text="${#locale.language == 'en' ? country.getLongEN() : country.getLongLT()}">
@@ -143,8 +142,9 @@
                     th:text="#{customer.residential-document-type}"></label>
                 <select id="residential-document-type"
                     th:field="*{customerDto.residentialDocument.residentialDocumentType}"
-                    class="form-control input-field searchable-select">
-                        <option value="" disabled th:text="#{customer.document-type-select}"></option>
+                    class="form-control input-field">
+                        <option value="" id="residential-document-type-select"
+                                th:text="#{customer.document-type-select}"></option>
                         <option th:each="document : ${residentialDocumentTypes}"
                                 th:value="${document}"
                                 th:text="${#locale.language == 'en' ? document.getLongEN() : document.getLongLT()}">
@@ -177,8 +177,9 @@
                     th:text="#{customer.residential-document-issued-by}"></label>
                 <select id="residential-document-issued-by"
                     th:field="*{customerDto.residentialDocument.residentialDocumentIssuedBy}"
-                    class="form-control input-field searchable-select">
-                        <option value="" disabled th:text="#{customer.country-select}"></option>
+                    class="form-control input-field">
+                        <option value="" id="residential-document-issued-by-country-select"
+                                th:text="#{customer.country-select}"></option>
                         <option th:each="country : ${EUTerritoriesWithNonEUCountries}"
                                 th:value="${country}"
                                 th:text="${#locale.language == 'en' ? country.getLongEN() : country.getLongLT()}">
@@ -197,8 +198,9 @@
                     th:text="#{customer.residential-country}"></label>
                 <select id="residential-country"
                     th:field="*{customerDto.residentialDocument.residentialCountry}"
-                    class="form-control input-field searchable-select">
-                        <option value="" disabled th:text="#{customer.country-select}"></option>
+                    class="form-control input-field">
+                        <option value="" id="residential-country-select"
+                                th:text="#{customer.country-select}"></option>
                         <option th:each="country : ${nonEUCountries}"
                                 th:value="${country}"
                                 th:text="${#locale.language == 'en' ? country.getLongEN() : country.getLongLT()}">
@@ -217,8 +219,9 @@
                     th:text="#{customer.residential-EU-territory}"></label>
                 <select id="residential-EU-territory"
                     th:field="*{customerDto.residentialDocument.residentialEUTerritory}"
-                    class="form-control input-field searchable-select">
-                        <option value="" disabled th:text="#{customer.territory-select}"></option>
+                    class="form-control input-field">
+                        <option value="" id="residential-EU-territory-select"
+                                th:text="#{customer.territory-select}"></option>
                         <option th:each="territory : ${EUTerritoriesThirdCountries}"
                                 th:value="${territory}"
                                 th:text="${#locale.language == 'en' ?

@@ -2,8 +2,7 @@ package project.common.validation.customer.elements;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import project.common.validation.implementation.customer.elements.PersonFirstNameValidator;
-import project.common.validation.implementation.customer.elements.PersonalIdNoValidator;
+import project.common.validation.implementation.customer.nested_customer.PersonalIdNoValidator;
 
 import java.lang.annotation.*;
 

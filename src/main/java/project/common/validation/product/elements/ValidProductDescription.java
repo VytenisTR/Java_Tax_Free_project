@@ -2,7 +2,7 @@ package project.common.validation.product.elements;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import project.common.validation.implementation.product.elements.ProductDescriptionValidator;
+import project.common.validation.implementation.product.nested_product.ProductDescriptionValidator;
 import java.lang.annotation.*;
 
 @Documented

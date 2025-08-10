@@ -167,13 +167,48 @@ function isItIssuedByEUThirdTerritories(country) {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("personal-id-number-issued-by").value = "";
-    document.getElementById("identity-document-issued-by").value = "";
-    document.getElementById("identity-document-type").value = "";
-    document.getElementById("residential-document-type").value = "";
-    document.getElementById("residential-document-issued-by").value = "";
-    document.getElementById("residential-country").value = "";
-    document.getElementById("residential-EU-territory").value = "";
+    const personalIdNumberIssuedByPlaceholder =
+        document.getElementById("personal-id-number-issued-by-country-select");
+    if (personalIdNumberIssuedByPlaceholder) {
+        personalIdNumberIssuedByPlaceholder.disabled = true;
+    }
+
+    const identityDocumentTypePlaceholder =
+        document.getElementById("identity-document-type-select");
+    if (identityDocumentTypePlaceholder) {
+        identityDocumentTypePlaceholder.disabled = true;
+    }
+
+    const identityDocumentIssuedByPlaceholder =
+        document.getElementById("identity-document-issued-by-country-select");
+    if (identityDocumentIssuedByPlaceholder) {
+        identityDocumentIssuedByPlaceholder.disabled = true;
+    }
+
+    const residentialDocumentTypePlaceholder =
+        document.getElementById("residential-document-type-select");
+    if (residentialDocumentTypePlaceholder) {
+        residentialDocumentTypePlaceholder.disabled = true;
+    }
+
+    const residentialDocumentIssuedByPlaceholder =
+        document.getElementById("residential-document-issued-by-country-select");
+    if (residentialDocumentIssuedByPlaceholder) {
+        residentialDocumentIssuedByPlaceholder.disabled = true;
+    }
+
+    const residentialCountryPlaceholder =
+        document.getElementById("residential-country-select");
+    if (residentialCountryPlaceholder) {
+        residentialCountryPlaceholder.disabled = true;
+    }
+
+    const residentialEUTerritoryPlaceholder =
+        document.getElementById("residential-EU-territory-select");
+    if (residentialEUTerritoryPlaceholder) {
+        residentialEUTerritoryPlaceholder.disabled = true;
+    }
+
     togglePersonalIdNumberFieldsGroup();
     toggleOtherDocumentFieldsGroup();
 })

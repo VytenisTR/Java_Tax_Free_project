@@ -2,10 +2,10 @@ package project.declaration.model.elements_model.customer;
 
 import jakarta.persistence.*;
 import lombok.*;
-import project.declaration.elements_dto.customer.nested_dto.IdentityDocument;
-import project.declaration.elements_dto.customer.nested_dto.Person;
-import project.declaration.elements_dto.customer.nested_dto.PersonIdentification;
-import project.declaration.elements_dto.customer.nested_dto.ResidentialDocument;
+import project.declaration.nested_dto.customer.customer_dto.IdentityDocument;
+import project.declaration.nested_dto.customer.customer_dto.Person;
+import project.declaration.nested_dto.customer.customer_dto.PersonIdentification;
+import project.declaration.nested_dto.customer.customer_dto.ResidentialDocument;
 import project.declaration.model.DeclarationEntity;
 
 @Entity

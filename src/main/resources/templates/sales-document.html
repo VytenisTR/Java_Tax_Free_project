@@ -9,9 +9,7 @@
     <link th:href="@{/css/declaration.css}" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/lt.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script th:src="@{/js/bootstrap.js}"></script>
-    <script th:src="@{/js/searchable_select.js}"></script>
     <script th:src="@{/js/date_picker_lt.js}"></script>
     <script th:src="@{/js/sales_document.js}"></script>
 </head>
@@ -152,8 +150,8 @@
                             th:text="#{sales-document.unit-of-measurement}"></label>
                         <select th:id="'measurement-units-' + ${stat.index}"
                             th:field="*{salesDocumentDto.products[__${stat.index}__].measurementUnits}"
-                            class="form-control input-field measurement-units-input searchable-select">
-                                <option value="" disabled
+                            class="form-control input-field measurement-units-input">
+                                <option value="" id="measurement-units-select"
                                         th:text="#{sales-document.unit-of-measurement-select}"></option>
                                 <option value=""></option>
                                 <option th:each="measurementUnit : ${measurementUnits}"

@@ -7,7 +7,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 import project.common.validation.customer.ValidResidentialDocument;
-import project.declaration.elements_dto.customer.nested_dto.ResidentialDocument;
+import project.declaration.nested_dto.customer.customer_dto.ResidentialDocument;
 import project.enums.EUTerritoriesWithNonEUCountries;
 import java.util.Locale;
 import java.util.Set;
