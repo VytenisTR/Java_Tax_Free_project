@@ -29,8 +29,8 @@ public class BasicSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/submit/**").hasRole("ADMIN")
-                        .requestMatchers("/details/**", "/list/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/details/**","/submit/**").hasRole("ADMIN")
+                        .requestMatchers("/list/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpEndpoint.LOGIN, HttpEndpoint.LOGOUT,
                                 "/css/**", "/js/**").permitAll()
                         .anyRequest().authenticated()
