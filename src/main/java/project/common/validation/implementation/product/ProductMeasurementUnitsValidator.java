@@ -24,8 +24,8 @@ public final class ProductMeasurementUnitsValidator implements ConstraintValidat
             return true;
         }
 
-        final boolean measurementUnitsExists = productDto.getMeasurementUnits() != null;
-        final boolean measurementUnitsOtherExists = productDto.getMeasurementUnitsOther() != null &&
+        boolean measurementUnitsExists = productDto.getMeasurementUnits() != null;
+        boolean measurementUnitsOtherExists = productDto.getMeasurementUnitsOther() != null &&
                 !productDto.getMeasurementUnitsOther().trim().isEmpty();
 
         boolean productMeasurementUnitsValid = true;

@@ -24,9 +24,9 @@ public final class PersonIdentificationValidator implements ConstraintValidator<
             return true;
         }
 
-        final boolean personalIdentificationNumberExists = personIdentification.getPersonalIdNumber() != null
+        boolean personalIdentificationNumberExists = personIdentification.getPersonalIdNumber() != null
                 && !personIdentification.getPersonalIdNumber().trim().isEmpty();
-        final boolean personalIdentificationNumberIssuerExists = personIdentification.getIdIssuedBy() != null;
+        boolean personalIdentificationNumberIssuerExists = personIdentification.getIdIssuedBy() != null;
 
         context.disableDefaultConstraintViolation();
 

@@ -8,14 +8,14 @@ function togglePersonalIdNumberFieldsGroup() {
 
     function togglePersonalIdNumberFields() {
         if (personalIdNumber.value.trim() !== "") {
-                    personalIdNumber.setAttribute("required", "required");
-                    personalIdNumberLabel.textContent = personalIdNumberLabel.dataset.labelOption2;
+            personalIdNumber.setAttribute("required", "required");
+            personalIdNumberLabel.textContent = personalIdNumberLabel.dataset.labelOption2;
 
-                    personalIdNumberIssuedBy.setAttribute("required", "required");
-                    personalIdNumberIssuedBy.removeAttribute("readonly");
-                    personalIdNumberIssuedBy.classList.add("input-field");
-                    personalIdNumberIssuedBy.classList.remove("input-field-disabled");
-                    personalIdNumberIssuedByLabel.textContent = personalIdNumberIssuedByLabel.dataset.labelOption2;
+            personalIdNumberIssuedBy.setAttribute("required", "required");
+            personalIdNumberIssuedBy.removeAttribute("readonly");
+            personalIdNumberIssuedBy.classList.add("input-field");
+            personalIdNumberIssuedBy.classList.remove("input-field-disabled");
+            personalIdNumberIssuedByLabel.textContent = personalIdNumberIssuedByLabel.dataset.labelOption2;
         } else {
             personalIdNumber.removeAttribute("required");
             personalIdNumberLabel.textContent = personalIdNumberLabel.dataset.labelOption1;
@@ -29,7 +29,15 @@ function togglePersonalIdNumberFieldsGroup() {
         }
     }
 
-    personalIdNumber.addEventListener("input", togglePersonalIdNumberFields);
+    togglePersonalIdNumberFields();
+}
+
+function togglePersonalIdNumberFieldsGroupEventListener() {
+    const personalIdNumber = document.getElementById("personal-id-number");
+
+    if (personalIdNumber) {
+        personalIdNumber.addEventListener("input", togglePersonalIdNumberFieldsGroup);
+    }
 }
 
 function toggleOtherDocumentFieldsGroup() {
@@ -63,7 +71,7 @@ function toggleOtherDocumentFieldsGroup() {
             otherDocumentField3.setAttribute("required", "required");
             otherDocumentField3Label.textContent = otherDocumentField3Label.dataset.labelOption2;
 
-            toggleEUThirdTerritoriesFieldsGroup();
+            toggleEUThirdTerritoriesFieldsGroupEventListener();
         } else {
             otherDocumentField1.classList.add("hidden");
             otherDocumentField1.removeAttribute("required");
@@ -77,7 +85,7 @@ function toggleOtherDocumentFieldsGroup() {
 
             otherDocumentField3.classList.add("hidden");
             otherDocumentField3.removeAttribute("required");
-            otherDocumentField3.querySelector("#other-document-issued-by").value = "";
+            otherDocumentField3.querySelector("#residential-document-issued-by").value = "";
             otherDocumentField3Label.textContent = otherDocumentField3Label.dataset.labelOption1;
 
             permanentResidenceField.classList.add("hidden");
@@ -92,7 +100,15 @@ function toggleOtherDocumentFieldsGroup() {
         }
     }
 
-    idDocumentIssuer.addEventListener("change", toggleOtherDocumentFields);
+    toggleOtherDocumentFields();
+}
+
+function toggleOtherDocumentFieldsGroupEventListener() {
+    const idDocumentIssuer = document.getElementById("identity-document-issued-by");
+
+    if (idDocumentIssuer) {
+        idDocumentIssuer.addEventListener("change", toggleOtherDocumentFieldsGroup);
+    }
 }
 
 function toggleEUThirdTerritoriesFieldsGroup() {
@@ -116,12 +132,10 @@ function toggleEUThirdTerritoriesFieldsGroup() {
 
             thirdTerritoriesEUField.classList.remove("hidden");
             thirdTerritoriesEUField.setAttribute("required", "required");
-            thirdTerritoriesEUField.querySelector("#residential-EU-territory").value = "";
             thirdTerritoriesEUFieldLabel.textContent = thirdTerritoriesEUFieldLabel.dataset.labelOption2;
         } else if (!isItIssuedByEUThirdTerritories(residentialDocumentIssuer.value.trim())) {
             permanentResidenceField.classList.remove("hidden");
             permanentResidenceField.setAttribute("required", "required");
-            permanentResidenceField.querySelector("#residential-country").value = "";
             permanentResidenceFieldLabel.textContent = permanentResidenceFieldLabel.dataset.labelOption2;
 
             thirdTerritoriesEUField.classList.add("hidden");
@@ -141,7 +155,16 @@ function toggleEUThirdTerritoriesFieldsGroup() {
         }
     }
 
-    residentialDocumentIssuer.addEventListener("change", toggleEUThirdTerritoriesFields);
+    toggleEUThirdTerritoriesFields();
+}
+
+function toggleEUThirdTerritoriesFieldsGroupEventListener() {
+    const residentialDocumentIssuer =
+        document.getElementById("residential-document-issued-by");
+
+    if (residentialDocumentIssuer) {
+        residentialDocumentIssuer.addEventListener("change", toggleEUThirdTerritoriesFieldsGroup);
+    }
 }
 
 function isItIssuedByEUUK(country) {
@@ -210,5 +233,16 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     togglePersonalIdNumberFieldsGroup();
-    toggleOtherDocumentFieldsGroup();
+    togglePersonalIdNumberFieldsGroupEventListener();
+    toggleOtherDocumentFieldsGroupEventListener();
+
+    if (document.getElementById("identity-document-issued-by") &&
+        document.getElementById("identity-document-issued-by").value.trim() !== "") {
+        toggleOtherDocumentFieldsGroup();
+    }
+
+    if (document.getElementById("residential-document-issued-by") &&
+        document.getElementById("residential-document-issued-by").value.trim() !== "") {
+        toggleEUThirdTerritoriesFieldsGroup();
+    }
 })

@@ -45,9 +45,15 @@ function toggleRadioButtonsFieldsGroup() {
     }
 
     toggleRadioButtonsFields();
+}
 
-    cashRegisterReceiptRadioButton.addEventListener("change", toggleRadioButtonsFields);
-    invoiceRadioButton.addEventListener("change", toggleRadioButtonsFields);
+function toggleRadioButtonsFieldsGroupEventListener() {
+    const cashRegisterReceiptRadioButton =
+        document.getElementById("cash-register-receipt-radio");
+    const invoiceRadioButton = document.getElementById("invoice-radio");
+
+    cashRegisterReceiptRadioButton.addEventListener("change", toggleRadioButtonsFieldsGroup);
+    invoiceRadioButton.addEventListener("change", toggleRadioButtonsFieldsGroup);
 }
 
 function toggleMeasurementUnitFieldsGroup(productFieldsGroup, productGroupIndex) {
@@ -285,6 +291,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const firstProductGroup = document.querySelector(".product-fields");
 
     toggleRadioButtonsFieldsGroup();
+    toggleRadioButtonsFieldsGroupEventListener();
 
     if (firstProductGroup) {
         disableMeasurementUnitsPlaceholder(firstProductGroup);

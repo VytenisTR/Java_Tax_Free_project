@@ -24,15 +24,15 @@ public final class SalesDocumentValidator implements ConstraintValidator<ValidSa
             return true;
         }
 
-        final boolean cashRegisterReceiptExists = salesDocumentDto.getCashRegisterReceipt() != null &&
+        boolean cashRegisterReceiptExists = salesDocumentDto.getCashRegisterReceipt() != null &&
                 salesDocumentDto.getCashRegisterReceipt().getCashRegisterNo() != null &&
                 !salesDocumentDto.getCashRegisterReceipt().getCashRegisterNo().trim().isEmpty() &&
                 salesDocumentDto.getCashRegisterReceipt().getCashReceiptNo() != null &&
                 !salesDocumentDto.getCashRegisterReceipt().getCashReceiptNo().trim().isEmpty();
-        final boolean invoiceExists = salesDocumentDto.getInvoice() != null &&
+        boolean invoiceExists = salesDocumentDto.getInvoice() != null &&
                 salesDocumentDto.getInvoice().getInvoiceNo() != null &&
                 !salesDocumentDto.getInvoice().getInvoiceNo().trim().isEmpty();
-        final boolean salesDateExists = salesDocumentDto.getSalesDate() != null;
+        boolean salesDateExists = salesDocumentDto.getSalesDate() != null;
 
         boolean salesDocumentValid = true;
 

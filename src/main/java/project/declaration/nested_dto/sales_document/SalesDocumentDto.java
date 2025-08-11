@@ -11,6 +11,7 @@ import project.declaration.nested_dto.sales_document.sales_document_dto.CashRegi
 import project.declaration.nested_dto.sales_document.sales_document_dto.Invoice;
 import project.declaration.nested_dto.sales_document.sales_document_dto.ProductDto;
 import project.declaration.validation.nested_steps.SalesDocumentStep;
+import project.enums.SalesDocumentTypes;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.List;
 @Builder
 @ValidSalesDocument(groups = SalesDocumentStep.class)
 public final class SalesDocumentDto {
+    private SalesDocumentTypes salesDocumentType;
     @Valid
     private CashRegisterReceipt cashRegisterReceipt;
     @Valid

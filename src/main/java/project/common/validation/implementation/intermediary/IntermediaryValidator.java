@@ -30,9 +30,9 @@ public final class IntermediaryValidator implements ConstraintValidator<ValidInt
         context.disableDefaultConstraintViolation();
 
         if (!intermediaryDto.isNoIntermediaryUsed()) {
-            final boolean intermediaryNameEmpty = intermediaryDto.getIntermediaryName() == null
+            boolean intermediaryNameEmpty = intermediaryDto.getIntermediaryName() == null
                     || intermediaryDto.getIntermediaryName().trim().isEmpty();
-            final boolean intermediaryIdNumberEmpty = intermediaryDto.getIntermediaryIdNumber() == null
+            boolean intermediaryIdNumberEmpty = intermediaryDto.getIntermediaryIdNumber() == null
                     || intermediaryDto.getIntermediaryIdNumber().trim().isEmpty();
 
             if (intermediaryNameEmpty) {

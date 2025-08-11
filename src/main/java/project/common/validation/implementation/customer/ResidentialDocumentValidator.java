@@ -26,23 +26,25 @@ public final class ResidentialDocumentValidator implements ConstraintValidator<V
             return true;
         }
 
-        final EUTerritoriesWithNonEUCountries residentialDocumentIssuedBy =
+        EUTerritoriesWithNonEUCountries residentialDocumentIssuedBy =
                 residentialDocument.getResidentialDocumentIssuedBy();
 
-        final boolean residentialDocumentTypeExists = residentialDocument.getResidentialDocumentType() != null;
-        final boolean residentialDocumentNoExists = residentialDocument.getResidentialDocumentNo() != null
+        boolean residentialDocumentTypeExists = residentialDocument.getResidentialDocumentType() != null;
+        boolean residentialDocumentNoExists = residentialDocument.getResidentialDocumentNo() != null
                 && !residentialDocument.getResidentialDocumentNo().trim().isEmpty();
-        final boolean residentialDocumentIssuedByExists =
+        boolean residentialDocumentIssuedByExists =
                 residentialDocument.getResidentialDocumentIssuedBy() != null;
 
-        final boolean anyFieldIsFilled = residentialDocumentTypeExists ||
+        boolean anyFieldIsFilled = residentialDocumentTypeExists ||
                 residentialDocumentNoExists || residentialDocumentIssuedByExists;
-        final boolean allFieldsAreFilled = residentialDocumentTypeExists &&
+        boolean allFieldsAreFilled = residentialDocumentTypeExists &&
                 residentialDocumentNoExists && residentialDocumentIssuedByExists;
 
         boolean residentialDocumentValid = true;
 
         Locale currentLocale = LocaleContextHolder.getLocale();
+
+        System.out.println(residentialDocumentIssuedBy);
 
         context.disableDefaultConstraintViolation();
 
@@ -85,7 +87,7 @@ public final class ResidentialDocumentValidator implements ConstraintValidator<V
         }
 
         if (residentialDocumentIssuedBy != null) {
-            if (isItIssuedByEUThirdTerritories(residentialDocumentIssuedBy)) {
+            if (!isItIssuedByEUThirdTerritories(residentialDocumentIssuedBy)) {
                 if (residentialDocument.getResidentialCountry() == null) {
                     String localizedMessage = messageSource.getMessage(
                             "custom.validator.valid-residential-document-permanent-residence-country",
@@ -96,6 +98,7 @@ public final class ResidentialDocumentValidator implements ConstraintValidator<V
                     context.buildConstraintViolationWithTemplate(localizedMessage)
                             .addPropertyNode("residentialCountry")
                             .addConstraintViolation();
+
                     residentialDocumentValid = false;
                 }
             } else {
@@ -109,6 +112,7 @@ public final class ResidentialDocumentValidator implements ConstraintValidator<V
                     context.buildConstraintViolationWithTemplate(localizedMessage)
                             .addPropertyNode("residentialEUTerritory")
                             .addConstraintViolation();
+
                     residentialDocumentValid = false;
                 }
             }
@@ -118,10 +122,9 @@ public final class ResidentialDocumentValidator implements ConstraintValidator<V
     }
 
     private boolean isItIssuedByEUThirdTerritories(
-            final EUTerritoriesWithNonEUCountries residentialDocumentIssuedBy) {
+            EUTerritoriesWithNonEUCountries residentialDocumentIssuedBy) {
         final Set<String> thirdEUTerritories = Set.of("FI", "FR", "DE", "GR", "IT", "ES");
 
-        return residentialDocumentIssuedBy != null
-                && thirdEUTerritories.contains(residentialDocumentIssuedBy.toString());
+        return thirdEUTerritories.contains(residentialDocumentIssuedBy.toString());
     }
 }

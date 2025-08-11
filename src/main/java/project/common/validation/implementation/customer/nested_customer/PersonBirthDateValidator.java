@@ -23,7 +23,7 @@ public final class PersonBirthDateValidator implements ConstraintValidator<Valid
             return true;
         }
 
-        final boolean personBirthDateValid = !personBirthDate.isBefore(DeclarationConstants.getMinBirthDate())
+        boolean personBirthDateValid = !personBirthDate.isBefore(DeclarationConstants.getMinBirthDate())
                 && !personBirthDate.isAfter(DeclarationConstants.getMaxBirthDate());
 
         if (!personBirthDateValid) {

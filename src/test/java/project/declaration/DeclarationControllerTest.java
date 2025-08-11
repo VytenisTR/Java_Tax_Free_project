@@ -127,12 +127,10 @@ class DeclarationControllerTest {
     }
 
     @Test
-    @DisplayName("GET /customer and redirect to /salesman if step is incorrect")
+    @DisplayName("GET /customer and redirect to /salesman when SALESMAN not reached")
     @WithMockUser(roles = "ADMIN")
-    void testGetCustomerRedirectIfStepWrong() throws Exception {
+    void testGetCustomerRedirectIfSalesmanNotReached() throws Exception {
         MockHttpSession session = new MockHttpSession();
-
-        session.setAttribute("currentStep", DeclarationWizardSteps.INTERMEDIARY);
 
         mockMvc.perform(get(HttpEndpoint.CUSTOMER).session(session))
                 .andExpect(status().is3xxRedirection())
@@ -140,12 +138,10 @@ class DeclarationControllerTest {
     }
 
     @Test
-    @DisplayName("GET /sales-document and redirect to /customer if step is incorrect")
+    @DisplayName("GET /sales-document and redirect to /customer when CUSTOMER not reached")
     @WithMockUser(roles = "ADMIN")
-    void testGetSalesDocumentRedirectIfStepWrong() throws Exception {
+    void testGetSalesDocumentRedirectIfCustomerNotReached() throws Exception {
         MockHttpSession session = new MockHttpSession();
-
-        session.setAttribute("currentStep", DeclarationWizardSteps.INTERMEDIARY);
 
         mockMvc.perform(get(HttpEndpoint.SALES_DOCUMENT).session(session))
                 .andExpect(status().is3xxRedirection())
@@ -153,12 +149,10 @@ class DeclarationControllerTest {
     }
 
     @Test
-    @DisplayName("GET /intermediary and redirect to /sales-document if step is incorrect")
+    @DisplayName("GET /intermediary and redirect to /sales-document when SALES_DOCUMENT not reached")
     @WithMockUser(roles = "ADMIN")
-    void testGetIntermediaryRedirectIfStepWrong() throws Exception {
+    void testGetIntermediaryRedirectIfSalesDocumentNotReached() throws Exception {
         MockHttpSession session = new MockHttpSession();
-
-        session.setAttribute("currentStep", DeclarationWizardSteps.INTERMEDIARY);
 
         mockMvc.perform(get(HttpEndpoint.INTERMEDIARY).session(session))
                 .andExpect(status().is3xxRedirection())
@@ -166,7 +160,7 @@ class DeclarationControllerTest {
     }
 
     @Test
-    @DisplayName("GET /declarations and return declarations view")
+    @DisplayName("GET /declarations/list and return declarations view")
     @WithMockUser(roles = "USER")
     void testViewDeclarationsReturnDeclarationsView() throws Exception {
         //Given
@@ -186,6 +180,7 @@ class DeclarationControllerTest {
                 .andExpect(view().name(HttpEndpoint.DECLARATIONS_VIEW))
                 .andExpect(model().attributeExists("declarations"))
                 .andExpect(model().attributeExists("currentPage"))
+                .andExpect(model().attributeExists("currentPageSize"))
                 .andExpect(model().attributeExists("totalPages"));
     }
 

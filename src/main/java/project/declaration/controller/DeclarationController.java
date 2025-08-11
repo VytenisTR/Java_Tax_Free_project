@@ -89,8 +89,7 @@ public class DeclarationController {
 
     @GetMapping(HttpEndpoint.SALESMAN)
     @PreAuthorize("hasRole('ADMIN')")
-    public String getSalesmanDetails(@ModelAttribute("declarationDto") DeclarationDto declarationDto,
-                                     HttpSession session) {
+    public String getSalesmanDetails(@ModelAttribute("declarationDto") DeclarationDto declarationDto) {
         declarationDto.getSalesmanDto().setVatCodeIssuer(EUCountries.LT); //Prefilled field
 
         return HttpEndpoint.SALESMAN_VIEW;
@@ -143,6 +142,10 @@ public class DeclarationController {
     @PreAuthorize("hasRole('ADMIN')")
     public String getSalesDocumentDetails(@ModelAttribute("declarationDto") DeclarationDto declarationDto,
                                           Model model, HttpSession session) {
+        if (declarationDto.getSalesDocumentDto().getSalesDocumentType() == null) {
+            declarationDto.getSalesDocumentDto().setSalesDocumentType(SalesDocumentTypes.CASH_REGISTER_RECEIPT);
+        }
+
         if (wizardStepReached(session, DeclarationWizardSteps.CUSTOMER)) {
             return "redirect:" + HttpEndpoint.CUSTOMER;
         }
