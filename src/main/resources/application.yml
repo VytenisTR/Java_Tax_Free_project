@@ -5,7 +5,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/tax_free_db
     username: postgres
-    password: Avinas542610*
+    password: "Avinas542610*"
     driver-class-name: org.postgresql.Driver
 
   jpa:

@@ -1,0 +1,22 @@
+services:
+  postgresqldb:
+    image: postgres:16
+    container_name: postgresqldb
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: tax_free_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "Avinas542610*"
+      TZ: "Europe/Vilnius"
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  pgdata:
